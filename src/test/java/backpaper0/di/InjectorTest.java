@@ -16,6 +16,7 @@ public class InjectorTest {
     @Test
     public void testInject() throws Exception {
         Container container = new Container();
+        container.init(new RegisterRule());
         container.register(InjectBean2.class, new SingletonComponentManager(
             InjectBean2.class));
 
@@ -32,6 +33,7 @@ public class InjectorTest {
     @Test
     public void testInject2() throws Exception {
         Container container = new Container();
+        container.init(new RegisterRule());
         container.register(InjectBean4.class, new SingletonComponentManager(
             InjectBean4.class));
         container.register(InjectBean2.class, new SingletonComponentManager(

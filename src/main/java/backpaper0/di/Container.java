@@ -13,11 +13,16 @@ public class Container {
 
     private Injector injector;
 
+    private boolean initialized = false;
+
     public Container() {
         injector = new Injector(this);
     }
 
     public <T> T get(Class<T> componentClass) {
+        if (!initialized) {
+            throw new RuntimeException("コンテナが初期化されていません。");
+        }
         if (!managers.containsKey(componentClass)) {
             throw new RuntimeException("コンポーネントがコンテナに登録されていません。"
                     + componentClass);
@@ -35,11 +40,17 @@ public class Container {
     }
 
     public <T> boolean hasComponent(Class<T> componentClass) {
+        if (!initialized) {
+            throw new RuntimeException("コンテナが初期化されていません。");
+        }
         return managers.containsKey(componentClass);
     }
 
-    public void init(RegisterRule rule) {
-        rule.register(this);
+    public synchronized void init(RegisterRule rule) {
+        if (!initialized) {
+            rule.register(this);
+            initialized = true;
+        }
     }
 
     public void destroy() {
