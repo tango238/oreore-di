@@ -10,7 +10,7 @@ public class Container {
     private Map<Class<Object>, Object> singletons = new HashMap<Class<Object>, Object>();
 
     public <T> T get(Class<T> componentClass) {
-        if (!initialized || destroyed) {
+        if (!initialized) {
             throw new RuntimeException("コンテナが初期化されていません。");
         }
         if (!singletons.containsKey(componentClass)) {
