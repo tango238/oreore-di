@@ -4,4 +4,6 @@ public interface ComponentManager {
 
     Object get();
 
+    void destroy();
+
 }

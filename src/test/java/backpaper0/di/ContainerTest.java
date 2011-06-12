@@ -12,6 +12,8 @@ import backpaper0.di.testing.InjectBean3;
 import backpaper0.di.testing.InjectBean4;
 import backpaper0.di.testing.PostConstructBean1;
 import backpaper0.di.testing.PostConstructBean2;
+import backpaper0.di.testing.PreDestroyBean1;
+import backpaper0.di.testing.PreDestroyBean2;
 
 public class ContainerTest {
 
@@ -84,7 +86,6 @@ public class ContainerTest {
 
     @Test
     public void testPostConstruct() throws Exception {
-        Container container = new Container();
         RegisterRule rule = new RegisterRule();
         rule.addRule(PostConstructBean1.class, Scope.SINGLETON);
         rule.addRule(PostConstructBean2.class, Scope.PROTOTYPE);
@@ -94,6 +95,28 @@ public class ContainerTest {
 
         PostConstructBean2 component2 = container.get(PostConstructBean2.class);
         assertThat(component2.called, is(true));
+    }
+
+    @Test
+    public void testPreDestroy() throws Exception {
+        RegisterRule rule = new RegisterRule();
+        rule.addRule(PreDestroyBean1.class, Scope.SINGLETON);
+        rule.addRule(PreDestroyBean2.class, Scope.PROTOTYPE);
+        container.init(rule);
+
+        PreDestroyBean1 component1 = container.get(PreDestroyBean1.class);
+        PreDestroyBean2 component2 = container.get(PreDestroyBean2.class);
+        PreDestroyBean2 component3 = container.get(PreDestroyBean2.class);
+
+        assertThat(component1.called, is(false));
+        assertThat(component2.called, is(false));
+        assertThat(component3.called, is(false));
+
+        container.destroy();
+
+        assertThat(component1.called, is(true));
+        assertThat(component2.called, is(true));
+        assertThat(component3.called, is(true));
     }
 
     private static SingletonComponentManager createManager(

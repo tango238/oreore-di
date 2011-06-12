@@ -43,4 +43,10 @@ public class Container {
         rule.register(this);
     }
 
+    public void destroy() {
+        for (ComponentManager manager : managers.values()) {
+            manager.destroy();
+        }
+        managers.clear();
+    }
 }
