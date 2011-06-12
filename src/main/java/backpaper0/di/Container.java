@@ -1,34 +1,42 @@
 package backpaper0.di;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Container {
 
-    private boolean initialized = false;
+    private static Logger logger = Logger.getLogger(Container.class.getName());
 
-    private Map<Class<Object>, Object> singletons = new HashMap<Class<Object>, Object>();
+    private ConcurrentMap<Class<?>, ComponentFactory> factories = new ConcurrentHashMap<Class<?>, ComponentFactory>();
 
-    public <T> T get(Class<T> componentClass) {
-        if (!initialized) {
-            throw new RuntimeException("コンテナが初期化されていません。");
-        }
-        if (!singletons.containsKey(componentClass)) {
-            try {
-                Object component = componentClass.newInstance();
-                singletons.put((Class<Object>) componentClass, component);
-            } catch (InstantiationException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        Object singleton = singletons.get(componentClass);
-        return (T) singleton;
+    private Injector injector;
+
+    public Container() {
+        injector = new Injector(this);
     }
 
-    public void init() {
-        initialized = true;
+    public <T> T get(Class<T> componentClass) {
+        if (!factories.containsKey(componentClass)) {
+            throw new RuntimeException("コンポーネントがコンテナに登録されていません。"
+                    + componentClass);
+        }
+        ComponentFactory factory = factories.get(componentClass);
+        T component = (T) factory.get();
+        injector.inject(component);
+        return component;
+    }
+
+    public void register(Class<?> componentClass, ComponentFactory factory) {
+        factories.put(componentClass, factory);
+        if (logger.isLoggable(Level.CONFIG)) {
+            logger.config("コンポーネントを登録しました。" + componentClass);
+        }
+    }
+
+    public <T> boolean hasComponent(Class<T> componentClass) {
+        return factories.containsKey(componentClass);
     }
 
 }
