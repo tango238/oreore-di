@@ -1,6 +1,10 @@
 package backpaper0.di;
 
+import java.lang.reflect.Method;
+
+import backpaper0.di.annotation.PostConstruct;
 import backpaper0.di.util.ClassUtil;
+import backpaper0.di.util.MethodUtil;
 
 public class PrototypeComponentManager implements ComponentManager {
 
@@ -12,7 +16,15 @@ public class PrototypeComponentManager implements ComponentManager {
 
     @Override
     public Object get() {
-        return ClassUtil.newInstance(componentClass);
+        Object component = ClassUtil.newInstance(componentClass);
+        for (Method method : componentClass.getMethods()) {
+            PostConstruct postConstruct = method
+                .getAnnotation(PostConstruct.class);
+            if (postConstruct != null) {
+                MethodUtil.invoke(method, component);
+            }
+        }
+        return component;
     }
 
 }
