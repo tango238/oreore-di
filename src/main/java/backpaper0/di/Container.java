@@ -22,8 +22,8 @@ public class Container {
             throw new RuntimeException("コンポーネントがコンテナに登録されていません。"
                     + componentClass);
         }
-        ComponentManager factory = managers.get(componentClass);
-        T component = (T) factory.get();
+        ComponentManager manager = managers.get(componentClass);
+        T component = (T) manager.get();
         injector.inject(component);
         return component;
     }
