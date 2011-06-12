@@ -1,10 +1,12 @@
 package backpaper0.di;
 
-public class PrototypeComponentFactory implements ComponentFactory {
+import backpaper0.di.util.ClassUtil;
+
+public class PrototypeComponentManager implements ComponentManager {
 
     private Class<?> componentClass;
 
-    public PrototypeComponentFactory(Class<?> componentClass) {
+    public PrototypeComponentManager(Class<?> componentClass) {
         this.componentClass = componentClass;
     }
 

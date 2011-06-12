@@ -31,9 +31,9 @@ public class RegisterRuleTest {
 
     @Test(expected = RuntimeException.class)
     public void testBadDuplicationRule() throws Exception {
-        RegisterRule register = new RegisterRule();
-        register.addRule(Bean1.class, Scope.SINGLETON);
-        register.addRule(Bean1.class, Scope.SINGLETON);
+        RegisterRule registerRule = new RegisterRule();
+        registerRule.addRule(Bean1.class, Scope.SINGLETON);
+        registerRule.addRule(Bean1.class, Scope.SINGLETON);
     }
 
     public static class Bean1 {

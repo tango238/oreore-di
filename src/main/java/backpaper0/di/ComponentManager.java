@@ -1,6 +1,6 @@
 package backpaper0.di;
 
-public interface ComponentFactory {
+public interface ComponentManager {
 
     Object get();
 

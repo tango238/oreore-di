@@ -16,14 +16,14 @@ public class ContainerTest {
 
     @Test
     public void testGet() throws Exception {
-        container.register(Foo.class, createFactory(Foo.class));
+        container.register(Foo.class, createManager(Foo.class));
         Foo component = container.get(Foo.class);
         assertThat(component, is(notNullValue()));
     }
 
     @Test
     public void testGet_singleton() throws Exception {
-        container.register(Foo.class, createFactory(Foo.class));
+        container.register(Foo.class, createManager(Foo.class));
         Foo component1 = container.get(Foo.class);
         Foo component2 = container.get(Foo.class);
         assertThat(component1, is(sameInstance(component2)));
@@ -37,22 +37,22 @@ public class ContainerTest {
             fail();
         } catch (RuntimeException expected) {
         }
-        container.register(Foo.class, createFactory(Foo.class));
+        container.register(Foo.class, createManager(Foo.class));
         container.get(Foo.class);
     }
 
     @Test
     public void testHasComponent() throws Exception {
         assertThat(container.hasComponent(Foo.class), is(false));
-        container.register(Foo.class, createFactory(Foo.class));
+        container.register(Foo.class, createManager(Foo.class));
         assertThat(container.hasComponent(Foo.class), is(true));
     }
 
     @Test
     public void testInject() throws Exception {
-        container.register(InjectBean2.class, createFactory(InjectBean2.class));
-        container.register(InjectBean3.class, createFactory(InjectBean3.class));
-        container.register(InjectBean4.class, createFactory(InjectBean4.class));
+        container.register(InjectBean2.class, createManager(InjectBean2.class));
+        container.register(InjectBean3.class, createManager(InjectBean3.class));
+        container.register(InjectBean4.class, createManager(InjectBean4.class));
         InjectBean3 component = container.get(InjectBean3.class);
         assertThat(component, is(notNullValue()));
         assertThat(component.getInjectBean4(), is(notNullValue()));
@@ -61,9 +61,27 @@ public class ContainerTest {
             is(notNullValue()));
     }
 
-    private static SingletonComponentFactory createFactory(
+    @Test
+    public void testInit() throws Exception {
+        try {
+            container.get(Foo.class);
+            fail();
+        } catch (RuntimeException expected) {
+        }
+
+        RegisterRule rule = new RegisterRule();
+        rule.addRule(Foo.class, Scope.SINGLETON);
+        container.init(rule);
+
+        Foo component1 = container.get(Foo.class);
+        assertThat(component1, is(notNullValue()));
+        Foo component2 = container.get(Foo.class);
+        assertThat(component1, is(sameInstance(component2)));
+    }
+
+    private static SingletonComponentManager createManager(
             Class<?> componentClass) {
-        return new SingletonComponentFactory(componentClass);
+        return new SingletonComponentManager(componentClass);
     }
 
 }

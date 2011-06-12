@@ -5,19 +5,21 @@ public enum Scope {
     SINGLETON {
 
         @Override
-        public ComponentFactory createFactory(Class<?> componentClass) {
-            return new SingletonComponentFactory(componentClass);
+        public ComponentManager createComponentManager(Class<?> componentClass) {
+            return new SingletonComponentManager(componentClass);
         }
 
     },
-    PROTOTYPE {
+        PROTOTYPE {
 
-        @Override
-        public ComponentFactory createFactory(Class<?> componentClass) {
-            return new PrototypeComponentFactory(componentClass);
-        }
+            @Override
+            public ComponentManager createComponentManager(
+                    Class<?> componentClass) {
+                return new PrototypeComponentManager(componentClass);
+            }
 
-    };
+        };
 
-    public abstract ComponentFactory createFactory(Class<?> componentClass);
+    public abstract ComponentManager createComponentManager(
+            Class<?> componentClass);
 }

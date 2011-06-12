@@ -19,18 +19,9 @@ public class RegisterRule {
         for (Entry<Class<?>, Scope> rule : rules.entrySet()) {
             Class<?> componentClass = rule.getKey();
             Scope scope = rule.getValue();
-            if (scope.equals(Scope.SINGLETON)) {
-                container.register(
-                    componentClass,
-                    new SingletonComponentFactory(componentClass));
-            } else if (scope.equals(Scope.PROTOTYPE)) {
-                container.register(
-                    componentClass,
-                    new PrototypeComponentFactory(componentClass));
-            } else {
-                throw new RuntimeException(
-                    "スコープは singleton か prototype を指定してください。");
-            }
+            ComponentManager manager = scope
+                .createComponentManager(componentClass);
+            container.register(componentClass, manager);
         }
     }
 }

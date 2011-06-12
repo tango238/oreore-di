@@ -7,14 +7,14 @@ import org.junit.Test;
 
 import backpaper0.di.testing.Foo;
 
-public class PrototypeComponentFactoryTest {
+public class PrototypeComponentManagerTest {
 
     @Test
     public void testGet() throws Exception {
-        PrototypeComponentFactory factory = new PrototypeComponentFactory(
+        PrototypeComponentManager manager = new PrototypeComponentManager(
             Foo.class);
-        Foo component1 = (Foo) factory.get();
-        Foo component2 = (Foo) factory.get();
+        Foo component1 = (Foo) manager.get();
+        Foo component2 = (Foo) manager.get();
         assertThat(component1, is(not(sameInstance(component2))));
     }
 

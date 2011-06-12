@@ -1,10 +1,12 @@
 package backpaper0.di;
 
-public class SingletonComponentFactory implements ComponentFactory {
+import backpaper0.di.util.ClassUtil;
+
+public class SingletonComponentManager implements ComponentManager {
 
     private Object singleton;
 
-    public SingletonComponentFactory(Class<?> componentClass) {
+    public SingletonComponentManager(Class<?> componentClass) {
         singleton = ClassUtil.newInstance(componentClass);
     }
 

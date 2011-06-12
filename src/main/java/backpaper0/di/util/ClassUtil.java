@@ -1,4 +1,4 @@
-package backpaper0.di;
+package backpaper0.di.util;
 
 public class ClassUtil {
 
