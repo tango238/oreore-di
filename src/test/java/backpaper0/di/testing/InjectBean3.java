@@ -1,6 +1,6 @@
 package backpaper0.di.testing;
 
-import backpaper0.di.Inject;
+import backpaper0.di.annotation.Inject;
 
 public class InjectBean3 {
 
