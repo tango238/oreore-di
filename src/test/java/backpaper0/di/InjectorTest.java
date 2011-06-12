@@ -3,8 +3,6 @@ package backpaper0.di;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Method;
-
 import org.junit.Test;
 
 import backpaper0.di.manager.SingletonComponentManager;
@@ -12,38 +10,8 @@ import backpaper0.di.testing.InjectBean1;
 import backpaper0.di.testing.InjectBean2;
 import backpaper0.di.testing.InjectBean3;
 import backpaper0.di.testing.InjectBean4;
-import backpaper0.di.testing.IsSetterBean;
 
 public class InjectorTest {
-
-    @Test
-    public void testIsSetter() throws Exception {
-        Injector injector = new Injector(new Container());
-        Method setter1 = IsSetterBean.class.getMethod("setAaa", String.class);
-        Method setter2 = IsSetterBean.class.getMethod("setB", int.class);
-        Method unsetter1 = IsSetterBean.class.getMethod("setccc", String.class);
-        Method unsetter2 = IsSetterBean.class.getMethod("setDdd", int.class);
-        Method unsetter3 = IsSetterBean.class.getMethod(
-            "setEee",
-            String.class,
-            int.class);
-        Method unsetter4 = IsSetterBean.class.getMethod("setFff");
-        Method unpublic1 = IsSetterBean.class.getDeclaredMethod(
-            "setGgg",
-            String.class);
-        Method uninstanceSetter1 = IsSetterBean.class.getDeclaredMethod(
-            "setHhh",
-            String.class);
-
-        assertThat(injector.isSetter(setter1), is(true));
-        assertThat(injector.isSetter(setter2), is(true));
-        assertThat(injector.isSetter(unsetter1), is(false));
-        assertThat(injector.isSetter(unsetter2), is(false));
-        assertThat(injector.isSetter(unsetter3), is(false));
-        assertThat(injector.isSetter(unsetter4), is(false));
-        assertThat(injector.isSetter(unpublic1), is(false));
-        assertThat(injector.isSetter(uninstanceSetter1), is(false));
-    }
 
     @Test
     public void testInject() throws Exception {

@@ -1,10 +1,9 @@
 package backpaper0.di;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
 import backpaper0.di.annotation.Inject;
-import backpaper0.di.util.MethodUtil;
+import backpaper0.di.bean.BeanDesc;
+import backpaper0.di.bean.BeanDescFactory;
+import backpaper0.di.bean.PropertyDesc;
 
 public class Injector {
 
@@ -16,38 +15,15 @@ public class Injector {
 
     public <T> void inject(T component) {
         Class<T> componentClass = (Class<T>) component.getClass();
-        Method[] methods = componentClass.getMethods();
-        for (Method method : methods) {
-            Inject inject = method.getAnnotation(Inject.class);
-            if (inject != null && isSetter(method)) {
-                Class<?> injectType = method.getParameterTypes()[0];
-                Object injected = container.get(injectType);
-                MethodUtil.invoke(method, component, injected);
+        BeanDesc beanDesc = BeanDescFactory.getBeanDesc(componentClass);
+        for (PropertyDesc propertyDesc : beanDesc.getPropertyDescs()) {
+            if (!propertyDesc.isReadOnly()
+                    && propertyDesc.getAnnotation(Inject.class) != null) {
+                Class<?> propertyClass = propertyDesc.getPropertyClass();
+                Object dependency = container.get(propertyClass);
+                propertyDesc.set(component, dependency);
             }
         }
     }
 
-    public boolean isSetter(Method setter) {
-        final int modifier = setter.getModifiers();
-        if (!Modifier.isPublic(modifier)) {
-            return false;
-        }
-        if (Modifier.isStatic(modifier)) {
-            return false;
-        }
-        final String name = setter.getName();
-        if (!name.startsWith("set")) {
-            return false;
-        }
-        if (!Character.isUpperCase(name.charAt(3))) {
-            return false;
-        }
-        if (!setter.getReturnType().equals(Void.TYPE)) {
-            return false;
-        }
-        if (setter.getParameterTypes().length != 1) {
-            return false;
-        }
-        return true;
-    }
 }
