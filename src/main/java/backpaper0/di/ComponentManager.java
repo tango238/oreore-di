@@ -2,7 +2,7 @@ package backpaper0.di;
 
 public interface ComponentManager {
 
-    Object get();
+    Object get(Injector injector);
 
     void destroy();
 

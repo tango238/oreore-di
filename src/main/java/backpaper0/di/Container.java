@@ -23,8 +23,7 @@ public class Container {
                     + componentClass);
         }
         ComponentManager manager = managers.get(componentClass);
-        T component = (T) manager.get();
-        injector.inject(component);
+        T component = (T) manager.get(injector);
         return component;
     }
 

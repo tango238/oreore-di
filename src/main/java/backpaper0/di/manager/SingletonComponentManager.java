@@ -1,5 +1,7 @@
 package backpaper0.di.manager;
 
+import backpaper0.di.Injector;
+
 public class SingletonComponentManager extends AbstractComponentManager {
 
     public SingletonComponentManager(Class<?> componentClass) {
@@ -7,9 +9,9 @@ public class SingletonComponentManager extends AbstractComponentManager {
     }
 
     @Override
-    public Object get() {
+    public Object get(Injector injector) {
         if (components.isEmpty()) {
-            createComponent();
+            createComponent(injector);
         }
         return components.iterator().next();
     }

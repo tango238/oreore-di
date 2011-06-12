@@ -1,5 +1,6 @@
 package backpaper0.di.manager;
 
+import backpaper0.di.Injector;
 
 public class PrototypeComponentManager extends AbstractComponentManager {
 
@@ -8,8 +9,8 @@ public class PrototypeComponentManager extends AbstractComponentManager {
     }
 
     @Override
-    public Object get() {
-        Object component = createComponent();
+    public Object get(Injector injector) {
+        Object component = createComponent(injector);
         return component;
     }
 }
