@@ -1,4 +1,4 @@
-package backpaper0.di;
+package backpaper0.di.manager;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;

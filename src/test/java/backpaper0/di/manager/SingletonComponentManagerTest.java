@@ -1,10 +1,11 @@
-package backpaper0.di;
+package backpaper0.di.manager;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import backpaper0.di.manager.SingletonComponentManager;
 import backpaper0.di.testing.Foo;
 
 public class SingletonComponentManagerTest {

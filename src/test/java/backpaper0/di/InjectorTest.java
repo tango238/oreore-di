@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 
 import org.junit.Test;
 
+import backpaper0.di.manager.SingletonComponentManager;
 import backpaper0.di.testing.InjectBean1;
 import backpaper0.di.testing.InjectBean2;
 import backpaper0.di.testing.InjectBean3;

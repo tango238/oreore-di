@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import backpaper0.di.manager.SingletonComponentManager;
 import backpaper0.di.testing.Foo;
 import backpaper0.di.testing.InjectBean2;
 import backpaper0.di.testing.InjectBean3;
