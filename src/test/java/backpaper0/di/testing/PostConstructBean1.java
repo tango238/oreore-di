@@ -1,6 +1,6 @@
 package backpaper0.di.testing;
 
-import backpaper0.di.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 
 public class PostConstructBean1 {
 
