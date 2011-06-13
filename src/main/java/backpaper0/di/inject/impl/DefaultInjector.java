@@ -9,14 +9,8 @@ import backpaper0.di.inject.Injector;
 
 public class DefaultInjector implements Injector {
 
-    private Container container;
-
-    public DefaultInjector(Container container) {
-        this.container = container;
-    }
-
     @Override
-    public <T> void inject(T component) {
+    public <T> void inject(T component, Container container) {
         Class<T> componentClass = (Class<T>) component.getClass();
         BeanDesc beanDesc = BeanDescFactory.getBeanDesc(componentClass);
         for (PropertyDesc propertyDesc : beanDesc.getPropertyDescs()) {

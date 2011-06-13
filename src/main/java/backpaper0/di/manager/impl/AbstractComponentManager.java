@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import backpaper0.di.Container;
 import backpaper0.di.inject.Injector;
 import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.util.ClassUtil;
@@ -37,12 +38,12 @@ public abstract class AbstractComponentManager implements ComponentManager {
         }
     }
 
-    protected Object createComponent(Injector injector) {
+    protected Object createComponent(Injector injector, Container container) {
         Object component = ClassUtil.newInstance(componentClass);
         for (Method postConstructMethod : postConstructMethods) {
             MethodUtil.invoke(postConstructMethod, component);
         }
-        injector.inject(component);
+        injector.inject(component, container);
         components.add(component);
         return component;
     }

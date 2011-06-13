@@ -7,9 +7,6 @@ import java.lang.reflect.Method;
 
 import org.junit.Test;
 
-import backpaper0.di.Container;
-import backpaper0.di.inject.Injector;
-import backpaper0.di.inject.impl.DefaultInjector;
 import backpaper0.di.testing.IsSetterBean;
 
 public class BeanUtilTest {
@@ -33,7 +30,6 @@ public class BeanUtilTest {
 
     @Test
     public void testIsSetter2() throws Exception {
-        Injector injector = new DefaultInjector(new Container());
         Method setter1 = IsSetterBean.class.getMethod("setAaa", String.class);
         Method setter2 = IsSetterBean.class.getMethod("setB", int.class);
         Method unsetter1 = IsSetterBean.class.getMethod("setccc", String.class);

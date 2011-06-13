@@ -28,7 +28,7 @@ public class Container {
                     + componentClass);
         }
         ComponentManager manager = managers.get(componentClass);
-        T component = (T) manager.get(injector);
+        T component = (T) manager.get(injector, this);
         return component;
     }
 
@@ -48,7 +48,7 @@ public class Container {
 
     public synchronized void init(Configuration config) {
         if (!initialized) {
-            injector = config.createInjector(this);
+            injector = config.createInjector();
             config.getRegisterRule().register(this);
             initialized = true;
         }

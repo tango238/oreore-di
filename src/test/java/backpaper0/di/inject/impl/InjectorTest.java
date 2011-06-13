@@ -26,10 +26,10 @@ public class InjectorTest {
         container.register(InjectBean2.class, new SingletonComponentManager(
             InjectBean2.class));
 
-        Injector injector = new DefaultInjector(container);
+        Injector injector = new DefaultInjector();
 
         InjectBean1 injectBean1 = new InjectBean1();
-        injector.inject(injectBean1);
+        injector.inject(injectBean1, container);
 
         assertThat(injectBean1.getInjectBean2(), is(sameInstance(container
             .get(InjectBean2.class))));
@@ -46,10 +46,10 @@ public class InjectorTest {
         container.register(InjectBean2.class, new SingletonComponentManager(
             InjectBean2.class));
 
-        Injector injector = new DefaultInjector(container);
+        Injector injector = new DefaultInjector();
 
         InjectBean3 injectBean3 = new InjectBean3();
-        injector.inject(injectBean3);
+        injector.inject(injectBean3, container);
 
         assertThat(injectBean3.getInjectBean4(), is(sameInstance(container
             .get(InjectBean4.class))));

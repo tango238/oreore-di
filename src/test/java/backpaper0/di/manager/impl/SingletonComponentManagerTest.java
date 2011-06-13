@@ -17,9 +17,9 @@ public class SingletonComponentManagerTest {
         SingletonComponentManager manager = new SingletonComponentManager(
             Foo.class);
         Container container = new Container();
-        Injector injector = new DefaultInjector(container);
-        Foo component1 = (Foo) manager.get(injector);
-        Foo component2 = (Foo) manager.get(injector);
+        Injector injector = new DefaultInjector();
+        Foo component1 = (Foo) manager.get(injector, container);
+        Foo component2 = (Foo) manager.get(injector, container);
         assertThat(component1, is(sameInstance(component2)));
     }
 }
