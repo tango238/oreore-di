@@ -59,23 +59,23 @@ public class ContainerTest {
     }
 
     @Test
-    public void testHasComponent() throws Exception {
+    public void testHas() throws Exception {
         container.init(new RegisterRule());
-        assertThat(container.hasComponent(Foo.class), is(false));
+        assertThat(container.has(Foo.class), is(false));
         container.register(Foo.class, createManager(Foo.class));
-        assertThat(container.hasComponent(Foo.class), is(true));
+        assertThat(container.has(Foo.class), is(true));
     }
 
     @Test
-    public void testHasComponent_not_yet_initialized() throws Exception {
+    public void testHas_not_yet_initialized() throws Exception {
         try {
-            container.hasComponent(Foo.class);
+            container.has(Foo.class);
             fail();
         } catch (RuntimeException expected) {
             assertThat(expected.getMessage(), is("コンテナが初期化されていません。"));
         }
         container.init(new RegisterRule());
-        container.hasComponent(Foo.class);
+        container.has(Foo.class);
     }
 
     @Test

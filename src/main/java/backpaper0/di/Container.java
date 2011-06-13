@@ -5,6 +5,15 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * コンテナです。
+ * 
+ * <p>インスタンス生成後に{@link #init(RegisterRule) 初期化}してください。
+ * 初期化せずに{@link #get(Class) コンポーネントを取得}しようとすると例外が発生します。
+ * 
+ * @author backpaper0
+ *
+ */
 public class Container {
 
     private static Logger logger = Logger.getLogger(Container.class.getName());
@@ -13,12 +22,19 @@ public class Container {
 
     private Injector injector;
 
-    private boolean initialized = false;
+    private volatile boolean initialized = false;
 
     public Container() {
         injector = new Injector(this);
     }
 
+    /**
+     * コンポーネントを返します。
+     * 
+     * @param <T>
+     * @param componentClass コンポーネントのキー
+     * @return コンポーネント
+     */
     public <T> T get(Class<T> componentClass) {
         if (!initialized) {
             throw new RuntimeException("コンテナが初期化されていません。");
@@ -39,13 +55,25 @@ public class Container {
         }
     }
 
-    public <T> boolean hasComponent(Class<T> componentClass) {
+    /**
+     * コンテナ内にコンポーネントが存在するか確認して返します。
+     * 
+     * @param <T>
+     * @param componentClass コンポーネントのキー
+     * @return {@literal true}ならコンポーネントが存在する
+     */
+    public <T> boolean has(Class<T> componentClass) {
         if (!initialized) {
             throw new RuntimeException("コンテナが初期化されていません。");
         }
         return managers.containsKey(componentClass);
     }
 
+    /**
+     * コンテナを初期化します。
+     * 
+     * @param rule コンポーネント登録のルール
+     */
     public synchronized void init(RegisterRule rule) {
         if (!initialized) {
             rule.register(this);
@@ -53,6 +81,10 @@ public class Container {
         }
     }
 
+    /**
+     * コンテナを破棄します。
+     * 
+     */
     public void destroy() {
         for (ComponentManager manager : managers.values()) {
             manager.destroy();
