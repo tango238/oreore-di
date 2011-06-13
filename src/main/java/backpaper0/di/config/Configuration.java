@@ -1,22 +1,12 @@
 package backpaper0.di.config;
 
 import backpaper0.di.inject.Injector;
-import backpaper0.di.inject.impl.DefaultInjector;
 import backpaper0.di.register.RegisterRule;
 
-public class Configuration {
+public interface Configuration {
 
-    private RegisterRule registerRule;
+    Injector createInjector();
 
-    public Injector createInjector() {
-        return new DefaultInjector();
-    }
+    RegisterRule getRegisterRule();
 
-    public void setRegisterRule(RegisterRule registerRule) {
-        this.registerRule = registerRule;
-    }
-
-    public RegisterRule getRegisterRule() {
-        return registerRule;
-    }
 }

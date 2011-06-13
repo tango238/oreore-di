@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
-import backpaper0.di.config.Configuration;
+import backpaper0.di.config.impl.DefaultConfiguration;
 import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.register.impl.SimpleRegisterRule;
 import backpaper0.di.testing.Foo;
@@ -30,7 +30,7 @@ public class ContainerTest {
 
     @Test
     public void testGet() throws Exception {
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(Foo.class, createManager(Foo.class));
@@ -40,7 +40,7 @@ public class ContainerTest {
 
     @Test
     public void testGet_singleton() throws Exception {
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(Foo.class, createManager(Foo.class));
@@ -51,7 +51,7 @@ public class ContainerTest {
 
     @Test
     public void testRegister() throws Exception {
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         try {
@@ -68,7 +68,7 @@ public class ContainerTest {
 
     @Test
     public void testHasComponent() throws Exception {
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         assertThat(container.hasComponent(Foo.class), is(false));
@@ -84,7 +84,7 @@ public class ContainerTest {
         } catch (RuntimeException expected) {
             assertThat(expected.getMessage(), is("コンテナが初期化されていません。"));
         }
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.hasComponent(Foo.class);
@@ -92,7 +92,7 @@ public class ContainerTest {
 
     @Test
     public void testInject() throws Exception {
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(InjectBean2.class, createManager(InjectBean2.class));
@@ -117,7 +117,7 @@ public class ContainerTest {
 
         SimpleRegisterRule rule = new SimpleRegisterRule();
         rule.addRule(Foo.class, Scope.SINGLETON);
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(rule);
         container.init(config);
 
@@ -132,7 +132,7 @@ public class ContainerTest {
         SimpleRegisterRule rule = new SimpleRegisterRule();
         rule.addRule(PostConstructBean1.class, Scope.SINGLETON);
         rule.addRule(PostConstructBean2.class, Scope.PROTOTYPE);
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(rule);
         container.init(config);
         PostConstructBean1 component1 = container.get(PostConstructBean1.class);
@@ -147,7 +147,7 @@ public class ContainerTest {
         SimpleRegisterRule rule = new SimpleRegisterRule();
         rule.addRule(PreDestroyBean1.class, Scope.SINGLETON);
         rule.addRule(PreDestroyBean2.class, Scope.PROTOTYPE);
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(rule);
         container.init(config);
 
@@ -184,7 +184,7 @@ public class ContainerTest {
             @Override
             public Void call() throws Exception {
                 start.await();
-                Configuration config = new Configuration();
+                DefaultConfiguration config = new DefaultConfiguration();
                 config.setRegisterRule(rule);
                 container.init(config);
                 end.countDown();
@@ -225,7 +225,7 @@ public class ContainerTest {
 
                 @Override
                 public Void call() throws Exception {
-                    Configuration config = new Configuration();
+                    DefaultConfiguration config = new DefaultConfiguration();
                     config.setRegisterRule(rule);
                     container.init(config);
                     return null;

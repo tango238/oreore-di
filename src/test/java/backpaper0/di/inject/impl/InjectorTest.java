@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import backpaper0.di.Container;
-import backpaper0.di.config.Configuration;
+import backpaper0.di.config.impl.DefaultConfiguration;
 import backpaper0.di.inject.Injector;
 import backpaper0.di.manager.impl.SingletonComponentManager;
 import backpaper0.di.register.impl.SimpleRegisterRule;
@@ -20,7 +20,7 @@ public class InjectorTest {
     @Test
     public void testInject() throws Exception {
         Container container = new Container();
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(InjectBean2.class, new SingletonComponentManager(
@@ -38,7 +38,7 @@ public class InjectorTest {
     @Test
     public void testInject2() throws Exception {
         Container container = new Container();
-        Configuration config = new Configuration();
+        DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(InjectBean4.class, new SingletonComponentManager(
