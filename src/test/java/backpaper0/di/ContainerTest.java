@@ -15,6 +15,7 @@ import org.junit.Test;
 import backpaper0.di.config.impl.DefaultConfiguration;
 import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.register.impl.SimpleRegisterRule;
+import backpaper0.di.scope.impl.DefaultScopes;
 import backpaper0.di.testing.Foo;
 import backpaper0.di.testing.InjectBean2;
 import backpaper0.di.testing.InjectBean3;
@@ -116,7 +117,7 @@ public class ContainerTest {
         }
 
         SimpleRegisterRule rule = new SimpleRegisterRule();
-        rule.addRule(Foo.class, Scope.SINGLETON);
+        rule.addRule(Foo.class, DefaultScopes.SINGLETON);
         DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(rule);
         container.init(config);
@@ -130,8 +131,8 @@ public class ContainerTest {
     @Test
     public void testPostConstruct() throws Exception {
         SimpleRegisterRule rule = new SimpleRegisterRule();
-        rule.addRule(PostConstructBean1.class, Scope.SINGLETON);
-        rule.addRule(PostConstructBean2.class, Scope.PROTOTYPE);
+        rule.addRule(PostConstructBean1.class, DefaultScopes.SINGLETON);
+        rule.addRule(PostConstructBean2.class, DefaultScopes.PROTOTYPE);
         DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(rule);
         container.init(config);
@@ -145,8 +146,8 @@ public class ContainerTest {
     @Test
     public void testPreDestroy() throws Exception {
         SimpleRegisterRule rule = new SimpleRegisterRule();
-        rule.addRule(PreDestroyBean1.class, Scope.SINGLETON);
-        rule.addRule(PreDestroyBean2.class, Scope.PROTOTYPE);
+        rule.addRule(PreDestroyBean1.class, DefaultScopes.SINGLETON);
+        rule.addRule(PreDestroyBean2.class, DefaultScopes.PROTOTYPE);
         DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(rule);
         container.init(config);
@@ -218,7 +219,7 @@ public class ContainerTest {
                 super.register(container);
             }
         };
-        rule.addRule(Foo.class, Scope.SINGLETON);
+        rule.addRule(Foo.class, DefaultScopes.SINGLETON);
         ExecutorService service = Executors.newFixedThreadPool(1);
         try {
             Future<Void> future = service.submit(new Callable<Void>() {
@@ -246,7 +247,7 @@ public class ContainerTest {
     }
 
     private static ComponentManager createManager(Class<?> componentClass) {
-        return Scope.SINGLETON.createComponentManager(componentClass);
+        return DefaultScopes.SINGLETON.createComponentManager(componentClass);
     }
 
 }

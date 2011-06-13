@@ -6,10 +6,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import backpaper0.di.Container;
-import backpaper0.di.Scope;
 import backpaper0.di.annotation.Inject;
 import backpaper0.di.config.impl.DefaultConfiguration;
 import backpaper0.di.register.impl.SimpleRegisterRule;
+import backpaper0.di.scope.impl.DefaultScopes;
 
 public class Example1 {
 
@@ -17,8 +17,8 @@ public class Example1 {
     public void example() {
         Container container = new Container();
         SimpleRegisterRule rule = new SimpleRegisterRule();
-        rule.addRule(Bean2.class, Scope.SINGLETON);
-        rule.addRule(Bean1.class, Scope.SINGLETON);
+        rule.addRule(Bean2.class, DefaultScopes.SINGLETON);
+        rule.addRule(Bean1.class, DefaultScopes.SINGLETON);
         DefaultConfiguration config = new DefaultConfiguration();
         config.setRegisterRule(rule);
         container.init(config);

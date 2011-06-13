@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import backpaper0.di.Container;
-import backpaper0.di.Scope;
 import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.register.RegisterRule;
+import backpaper0.di.scope.Scope;
 
 public class SimpleRegisterRule implements RegisterRule {
 
