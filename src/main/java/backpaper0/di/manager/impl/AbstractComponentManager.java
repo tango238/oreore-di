@@ -50,12 +50,4 @@ public abstract class AbstractComponentManager implements ComponentManager {
         return component;
     }
 
-    @Override
-    public void destroy() {
-        for (Object component : components) {
-            for (MethodDesc preDestroyMethod : preDestroyMethods) {
-                preDestroyMethod.invoke(component);
-            }
-        }
-    }
 }

@@ -1,5 +1,10 @@
 package backpaper0.di;
 
+import java.util.ArrayList;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
@@ -20,6 +25,22 @@ import backpaper0.di.register.RegisterRule;
  *
  */
 public class Container {
+
+    public static interface LifecycleListener {
+
+        void apply(LifecycleEvent event);
+    }
+
+    public static class LifecycleEvent extends EventObject {
+
+        public LifecycleEvent(Object source) {
+            super(source);
+        }
+    }
+
+    public static final String CONTAINER_DESTROY = "CONTAINER_DESTROY";
+
+    private Map<String, List<LifecycleListener>> listenersMap = new HashMap<String, List<LifecycleListener>>();
 
     private static Logger logger = Logger.getLogger(Container.class.getName());
 
@@ -88,9 +109,23 @@ public class Container {
      * 
      */
     public void destroy() {
-        for (ComponentManager manager : managers.values()) {
-            manager.destroy();
+        LifecycleEvent lifecycleEvent = new LifecycleEvent(this);
+        if (listenersMap.containsKey(CONTAINER_DESTROY)) {
+            for (LifecycleListener listener : listenersMap
+                .get(CONTAINER_DESTROY)) {
+                listener.apply(lifecycleEvent);
+            }
         }
         managers.clear();
+    }
+
+    public void addLifecycleListener(String lifecycle,
+            LifecycleListener listener) {
+        if (!listenersMap.containsKey(lifecycle)) {
+            listenersMap.put(
+                lifecycle,
+                new ArrayList<Container.LifecycleListener>());
+        }
+        listenersMap.get(lifecycle).add(listener);
     }
 }
