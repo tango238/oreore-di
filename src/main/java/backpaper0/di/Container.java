@@ -11,7 +11,6 @@ import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.register.RegisterRule;
 
 /**
-
  * コンテナです。
  * 
  * <p>インスタンス生成後に{@link #init(RegisterRule) 初期化}してください。
