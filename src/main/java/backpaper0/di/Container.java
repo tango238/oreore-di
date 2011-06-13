@@ -1,9 +1,5 @@
 package backpaper0.di;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
@@ -13,8 +9,8 @@ import backpaper0.di.config.Configuration;
 import backpaper0.di.inject.Injector;
 import backpaper0.di.lifecycle.BuiltInLifecycles;
 import backpaper0.di.lifecycle.Lifecycle;
-import backpaper0.di.lifecycle.LifecycleEvent;
 import backpaper0.di.lifecycle.LifecycleListener;
+import backpaper0.di.lifecycle.LifecycleManager;
 import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.register.RegisterRule;
 
@@ -29,13 +25,13 @@ import backpaper0.di.register.RegisterRule;
  */
 public class Container {
 
-    private Map<Lifecycle, List<LifecycleListener>> listenersMap = new HashMap<Lifecycle, List<LifecycleListener>>();
-
     private static Logger logger = Logger.getLogger(Container.class.getName());
 
     private ConcurrentMap<Class<?>, ComponentManager> managers = new ConcurrentHashMap<Class<?>, ComponentManager>();
 
     private Injector injector;
+
+    private LifecycleManager lifecycleManager = new LifecycleManager();
 
     private volatile boolean initialized = false;
 
@@ -90,13 +86,9 @@ public class Container {
             injector = config.createInjector();
             config.getRegisterRule().register(this);
             initialized = true;
-            LifecycleEvent lifecycleEvent = new LifecycleEvent(this);
-            if (listenersMap.containsKey(BuiltInLifecycles.CONTAINER_POST_CONSTRUCT)) {
-                for (LifecycleListener listener : listenersMap
-                    .get(BuiltInLifecycles.CONTAINER_POST_CONSTRUCT)) {
-                    listener.apply(lifecycleEvent);
-                }
-            }
+            lifecycleManager.fireLifecycleEvent(
+                BuiltInLifecycles.CONTAINER_POST_CONSTRUCT,
+                this);
         }
     }
 
@@ -105,21 +97,14 @@ public class Container {
      * 
      */
     public void destroy() {
-        LifecycleEvent lifecycleEvent = new LifecycleEvent(this);
-        if (listenersMap.containsKey(BuiltInLifecycles.CONTAINER_PRE_DESTROY)) {
-            for (LifecycleListener listener : listenersMap
-                .get(BuiltInLifecycles.CONTAINER_PRE_DESTROY)) {
-                listener.apply(lifecycleEvent);
-            }
-        }
+        lifecycleManager.fireLifecycleEvent(
+            BuiltInLifecycles.CONTAINER_PRE_DESTROY,
+            this);
         managers.clear();
     }
 
     public void addLifecycleListener(Lifecycle lifecycle,
             LifecycleListener listener) {
-        if (!listenersMap.containsKey(lifecycle)) {
-            listenersMap.put(lifecycle, new ArrayList<LifecycleListener>());
-        }
-        listenersMap.get(lifecycle).add(listener);
+        lifecycleManager.addLifecycleListener(lifecycle, listener);
     }
 }
