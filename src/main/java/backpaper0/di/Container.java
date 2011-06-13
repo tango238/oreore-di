@@ -41,7 +41,7 @@ public class Container {
             throw new IllegalStateException("コンテナが初期化されていません。");
         }
         if (!managers.containsKey(componentClass)) {
-            throw new RuntimeException("コンポーネントがコンテナに登録されていません。"
+            throw new IllegalArgumentException("コンポーネントがコンテナに登録されていません。"
                     + componentClass);
         }
         ComponentManager manager = managers.get(componentClass);

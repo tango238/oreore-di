@@ -59,7 +59,7 @@ public class ContainerTest {
             // 登録されていない場合は例外
             container.get(Foo.class);
             fail();
-        } catch (RuntimeException expected) {
+        } catch (IllegalArgumentException expected) {
             assertThat(expected.getMessage(), is("コンポーネントがコンテナに登録されていません。"
                     + Foo.class));
         }
@@ -82,7 +82,7 @@ public class ContainerTest {
         try {
             container.has(Foo.class);
             fail();
-        } catch (RuntimeException expected) {
+        } catch (IllegalStateException expected) {
             assertThat(expected.getMessage(), is("コンテナが初期化されていません。"));
         }
         DefaultConfiguration config = new DefaultConfiguration();
@@ -112,7 +112,7 @@ public class ContainerTest {
         try {
             container.get(Foo.class);
             fail();
-        } catch (RuntimeException expected) {
+        } catch (IllegalStateException expected) {
             assertThat(expected.getMessage(), is("コンテナが初期化されていません。"));
         }
 
@@ -235,7 +235,7 @@ public class ContainerTest {
             try {
                 container.get(Foo.class);
                 fail();
-            } catch (RuntimeException expected) {
+            } catch (IllegalStateException expected) {
                 assertThat(expected.getMessage(), is("コンテナが初期化されていません。"));
             }
             stopper.countDown();
