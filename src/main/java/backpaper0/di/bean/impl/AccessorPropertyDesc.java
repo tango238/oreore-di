@@ -35,10 +35,16 @@ public class AccessorPropertyDesc implements PropertyDesc {
     }
 
     public Object get(Object instance) {
+        if (isWriteOnly()) {
+            throw new UnsupportedOperationException("このプロパティは書き込み専用です。" + this);
+        }
         return MethodUtil.invoke(getter, instance);
     }
 
     public void set(Object instance, Object value) {
+        if (isReadOnly()) {
+            throw new UnsupportedOperationException("このプロパティは読み取り専用です。" + this);
+        }
         MethodUtil.invoke(setter, instance, value);
     }
 
@@ -69,4 +75,14 @@ public class AccessorPropertyDesc implements PropertyDesc {
         return writeOnly;
     }
 
+    @Override
+    public String toString() {
+        Class<?> beanClass;
+        if (isReadOnly()) {
+            beanClass = getter.getDeclaringClass();
+        } else {
+            beanClass = setter.getDeclaringClass();
+        }
+        return beanClass.getSimpleName() + "#" + name;
+    }
 }

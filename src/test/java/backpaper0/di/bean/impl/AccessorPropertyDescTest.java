@@ -45,14 +45,122 @@ public class AccessorPropertyDescTest {
 
     @Test
     public void testReadOnly() throws Exception {
-        //TODO
-        fail();
+        PropertyDesc readOnly = new AccessorPropertyDesc(
+            "readOnly",
+            Bean3.class.getMethod("getReadOnly"),
+            null);
+        PropertyDesc writeOnly = new AccessorPropertyDesc(
+            "writeOnly",
+            null,
+            Bean3.class.getMethod("setWriteOnly", String.class));
+        PropertyDesc readAndWrite = new AccessorPropertyDesc(
+            "readAndWrite",
+            Bean3.class.getMethod("getReadAndWrite"),
+            Bean3.class.getMethod("setReadAndWrite", String.class));
+        assertThat(readOnly.isReadOnly(), is(true));
+        assertThat(writeOnly.isReadOnly(), is(false));
+        assertThat(readAndWrite.isReadOnly(), is(false));
     }
 
     @Test
     public void testWriteOnly() throws Exception {
-        //TODO
-        fail();
+        PropertyDesc readOnly = new AccessorPropertyDesc(
+            "readOnly",
+            Bean3.class.getMethod("getReadOnly"),
+            null);
+        PropertyDesc writeOnly = new AccessorPropertyDesc(
+            "writeOnly",
+            null,
+            Bean3.class.getMethod("setWriteOnly", String.class));
+        PropertyDesc readAndWrite = new AccessorPropertyDesc(
+            "readAndWrite",
+            Bean3.class.getMethod("getReadAndWrite"),
+            Bean3.class.getMethod("setReadAndWrite", String.class));
+        assertThat(readOnly.isWriteOnly(), is(false));
+        assertThat(writeOnly.isWriteOnly(), is(true));
+        assertThat(readAndWrite.isWriteOnly(), is(false));
+    }
+
+    @Test
+    public void testGetter() throws Exception {
+        PropertyDesc readOnly = new AccessorPropertyDesc(
+            "readOnly",
+            Bean3.class.getMethod("getReadOnly"),
+            null);
+        PropertyDesc writeOnly = new AccessorPropertyDesc(
+            "writeOnly",
+            null,
+            Bean3.class.getMethod("setWriteOnly", String.class));
+        PropertyDesc readAndWrite = new AccessorPropertyDesc(
+            "readAndWrite",
+            Bean3.class.getMethod("getReadAndWrite"),
+            Bean3.class.getMethod("setReadAndWrite", String.class));
+        Bean3 instance = new Bean3();
+        readOnly.get(instance);
+        try {
+            writeOnly.get(instance);
+            fail();
+        } catch (UnsupportedOperationException expected) {
+        }
+        readAndWrite.get(instance);
+    }
+
+    @Test
+    public void testSetter() throws Exception {
+        PropertyDesc readOnly = new AccessorPropertyDesc(
+            "readOnly",
+            Bean3.class.getMethod("getReadOnly"),
+            null);
+        PropertyDesc writeOnly = new AccessorPropertyDesc(
+            "writeOnly",
+            null,
+            Bean3.class.getMethod("setWriteOnly", String.class));
+        PropertyDesc readAndWrite = new AccessorPropertyDesc(
+            "readAndWrite",
+            Bean3.class.getMethod("getReadAndWrite"),
+            Bean3.class.getMethod("setReadAndWrite", String.class));
+        Bean3 instance = new Bean3();
+        try {
+            readOnly.set(instance, "test");
+            fail();
+        } catch (UnsupportedOperationException expected) {
+        }
+        writeOnly.set(instance, "test");
+        readAndWrite.set(instance, "test");
+    }
+
+    @Test
+    public void testToString() throws Exception {
+        PropertyDesc readOnly = new AccessorPropertyDesc(
+            "readOnly",
+            Bean3.class.getMethod("getReadOnly"),
+            null);
+        assertThat(readOnly.toString(), is("Bean3#readOnly"));
+    }
+
+    public static class Bean3 {
+
+        private String readOnly;
+
+        private String writeOnly;
+
+        private String readAndWrite;
+
+        public void setReadAndWrite(String readAndWrite) {
+            this.readAndWrite = readAndWrite;
+        }
+
+        public String getReadAndWrite() {
+            return readAndWrite;
+        }
+
+        public String getReadOnly() {
+            return readOnly;
+        }
+
+        public void setWriteOnly(String writeOnly) {
+            this.writeOnly = writeOnly;
+        }
     }
 
     public static class Bean {
