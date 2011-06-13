@@ -1,10 +1,11 @@
 package backpaper0.di.manager.impl;
 
 import backpaper0.di.Container;
-import backpaper0.di.Container.LifecycleEvent;
-import backpaper0.di.Container.LifecycleListener;
 import backpaper0.di.bean.MethodDesc;
 import backpaper0.di.inject.Injector;
+import backpaper0.di.lifecycle.BuiltInLifecycles;
+import backpaper0.di.lifecycle.LifecycleEvent;
+import backpaper0.di.lifecycle.LifecycleListener;
 
 public class PrototypeComponentManager extends AbstractComponentManager {
 
@@ -16,7 +17,7 @@ public class PrototypeComponentManager extends AbstractComponentManager {
     public Object get(Injector injector, Container container) {
         final Object component = createComponent(injector, container);
         container.addLifecycleListener(
-            Container.CONTAINER_DESTROY,
+            BuiltInLifecycles.CONTAINER_PRE_DESTROY,
             new LifecycleListener() {
 
                 @Override

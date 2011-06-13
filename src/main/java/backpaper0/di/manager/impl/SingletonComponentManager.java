@@ -1,10 +1,11 @@
 package backpaper0.di.manager.impl;
 
 import backpaper0.di.Container;
-import backpaper0.di.Container.LifecycleEvent;
-import backpaper0.di.Container.LifecycleListener;
 import backpaper0.di.bean.MethodDesc;
 import backpaper0.di.inject.Injector;
+import backpaper0.di.lifecycle.BuiltInLifecycles;
+import backpaper0.di.lifecycle.LifecycleEvent;
+import backpaper0.di.lifecycle.LifecycleListener;
 
 public class SingletonComponentManager extends AbstractComponentManager {
 
@@ -17,7 +18,7 @@ public class SingletonComponentManager extends AbstractComponentManager {
         if (components.isEmpty()) {
             final Object singleton = createComponent(injector, container);
             container.addLifecycleListener(
-                Container.CONTAINER_DESTROY,
+                BuiltInLifecycles.CONTAINER_PRE_DESTROY,
                 new LifecycleListener() {
 
                     @Override
