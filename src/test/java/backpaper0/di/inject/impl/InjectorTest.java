@@ -1,4 +1,4 @@
-package backpaper0.di.inject;
+package backpaper0.di.inject.impl;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import backpaper0.di.Container;
 import backpaper0.di.config.Configuration;
+import backpaper0.di.inject.Injector;
 import backpaper0.di.manager.impl.SingletonComponentManager;
 import backpaper0.di.register.impl.SimpleRegisterRule;
 import backpaper0.di.testing.InjectBean1;
@@ -25,7 +26,7 @@ public class InjectorTest {
         container.register(InjectBean2.class, new SingletonComponentManager(
             InjectBean2.class));
 
-        Injector injector = new Injector(container);
+        Injector injector = new DefaultInjector(container);
 
         InjectBean1 injectBean1 = new InjectBean1();
         injector.inject(injectBean1);
@@ -45,7 +46,7 @@ public class InjectorTest {
         container.register(InjectBean2.class, new SingletonComponentManager(
             InjectBean2.class));
 
-        Injector injector = new Injector(container);
+        Injector injector = new DefaultInjector(container);
 
         InjectBean3 injectBean3 = new InjectBean3();
         injector.inject(injectBean3);
