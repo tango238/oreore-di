@@ -8,6 +8,7 @@ import org.junit.Test;
 import backpaper0.di.Container;
 import backpaper0.di.Scope;
 import backpaper0.di.annotation.Inject;
+import backpaper0.di.config.Configuration;
 import backpaper0.di.register.RegisterRule;
 
 public class Example1 {
@@ -18,7 +19,9 @@ public class Example1 {
         RegisterRule rule = new RegisterRule();
         rule.addRule(Bean2.class, Scope.SINGLETON);
         rule.addRule(Bean1.class, Scope.SINGLETON);
-        container.init(rule);
+        Configuration config = new Configuration();
+        config.setRegisterRule(rule);
+        container.init(config);
 
         Bean1 bean1 = container.get(Bean1.class);
         assertThat(bean1.getBean2(), is(notNullValue()));

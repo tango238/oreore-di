@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import backpaper0.di.Container;
 import backpaper0.di.Scope;
+import backpaper0.di.config.Configuration;
 
 public class RegisterRuleTest {
 
@@ -17,7 +18,9 @@ public class RegisterRuleTest {
         registerRule.addRule(Bean2.class, Scope.PROTOTYPE);
 
         Container container = new Container();
-        container.init(new RegisterRule());
+        Configuration config = new Configuration();
+        config.setRegisterRule(new RegisterRule());
+        container.init(config);
         registerRule.register(container);
 
         Bean1 component1 = container.get(Bean1.class);

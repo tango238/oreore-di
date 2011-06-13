@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import backpaper0.di.config.Configuration;
 import backpaper0.di.inject.Injector;
 import backpaper0.di.manager.ComponentManager;
-import backpaper0.di.register.RegisterRule;
 
 public class Container {
 
@@ -18,10 +18,6 @@ public class Container {
     private Injector injector;
 
     private boolean initialized = false;
-
-    public Container() {
-        injector = new Injector(this);
-    }
 
     public <T> T get(Class<T> componentClass) {
         if (!initialized) {
@@ -50,9 +46,10 @@ public class Container {
         return managers.containsKey(componentClass);
     }
 
-    public synchronized void init(RegisterRule rule) {
+    public synchronized void init(Configuration config) {
         if (!initialized) {
-            rule.register(this);
+            injector = config.createInjector(this);
+            config.getRegisterRule().register(this);
             initialized = true;
         }
     }
