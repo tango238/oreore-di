@@ -1,13 +1,13 @@
-package backpaper0.di.manager;
+package backpaper0.di.manager.impl;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import backpaper0.di.ComponentManager;
-import backpaper0.di.Injector;
 import backpaper0.di.annotation.PostConstruct;
 import backpaper0.di.annotation.PreDestroy;
+import backpaper0.di.inject.Injector;
+import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.util.ClassUtil;
 import backpaper0.di.util.MethodUtil;
 

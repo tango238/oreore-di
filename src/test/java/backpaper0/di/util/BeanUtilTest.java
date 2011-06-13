@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 import backpaper0.di.Container;
-import backpaper0.di.Injector;
+import backpaper0.di.inject.Injector;
 import backpaper0.di.testing.IsSetterBean;
 
 public class BeanUtilTest {

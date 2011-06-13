@@ -12,7 +12,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
-import backpaper0.di.manager.SingletonComponentManager;
+import backpaper0.di.manager.ComponentManager;
+import backpaper0.di.register.RegisterRule;
 import backpaper0.di.testing.Foo;
 import backpaper0.di.testing.InjectBean2;
 import backpaper0.di.testing.InjectBean3;
@@ -221,9 +222,8 @@ public class ContainerTest {
         }
     }
 
-    private static SingletonComponentManager createManager(
-            Class<?> componentClass) {
-        return new SingletonComponentManager(componentClass);
+    private static ComponentManager createManager(Class<?> componentClass) {
+        return Scope.SINGLETON.createComponentManager(componentClass);
     }
 
 }

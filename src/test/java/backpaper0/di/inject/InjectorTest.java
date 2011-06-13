@@ -1,11 +1,13 @@
-package backpaper0.di;
+package backpaper0.di.inject;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import backpaper0.di.manager.SingletonComponentManager;
+import backpaper0.di.Container;
+import backpaper0.di.manager.impl.SingletonComponentManager;
+import backpaper0.di.register.RegisterRule;
 import backpaper0.di.testing.InjectBean1;
 import backpaper0.di.testing.InjectBean2;
 import backpaper0.di.testing.InjectBean3;
@@ -25,9 +27,8 @@ public class InjectorTest {
         InjectBean1 injectBean1 = new InjectBean1();
         injector.inject(injectBean1);
 
-        assertThat(
-            injectBean1.getInjectBean2(),
-            is(sameInstance(container.get(InjectBean2.class))));
+        assertThat(injectBean1.getInjectBean2(), is(sameInstance(container
+            .get(InjectBean2.class))));
     }
 
     @Test
@@ -44,9 +45,8 @@ public class InjectorTest {
         InjectBean3 injectBean3 = new InjectBean3();
         injector.inject(injectBean3);
 
-        assertThat(
-            injectBean3.getInjectBean4(),
-            is(sameInstance(container.get(InjectBean4.class))));
+        assertThat(injectBean3.getInjectBean4(), is(sameInstance(container
+            .get(InjectBean4.class))));
         assertThat(
             injectBean3.getInjectBean4().getInjectBean2(),
             is(sameInstance(container.get(InjectBean2.class))));

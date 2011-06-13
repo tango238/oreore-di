@@ -1,9 +1,12 @@
-package backpaper0.di;
+package backpaper0.di.register;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import backpaper0.di.Container;
+import backpaper0.di.Scope;
 
 public class RegisterRuleTest {
 

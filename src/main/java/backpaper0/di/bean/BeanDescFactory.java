@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import backpaper0.di.bean.impl.AccessorPropertyDesc;
+import backpaper0.di.bean.impl.DefaultBeanDesc;
 import backpaper0.di.util.BeanUtil;
 
 public class BeanDescFactory {

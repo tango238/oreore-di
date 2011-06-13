@@ -6,9 +6,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import backpaper0.di.Container;
-import backpaper0.di.RegisterRule;
 import backpaper0.di.Scope;
 import backpaper0.di.annotation.Inject;
+import backpaper0.di.register.RegisterRule;
 
 public class Example1 {
 

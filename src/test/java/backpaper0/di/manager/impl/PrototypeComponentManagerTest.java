@@ -1,4 +1,4 @@
-package backpaper0.di.manager;
+package backpaper0.di.manager.impl;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import backpaper0.di.Container;
-import backpaper0.di.Injector;
+import backpaper0.di.inject.Injector;
 import backpaper0.di.testing.Foo;
 
 public class PrototypeComponentManagerTest {

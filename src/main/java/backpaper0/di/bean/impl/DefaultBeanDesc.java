@@ -1,6 +1,9 @@
-package backpaper0.di.bean;
+package backpaper0.di.bean.impl;
 
 import java.util.List;
+
+import backpaper0.di.bean.BeanDesc;
+import backpaper0.di.bean.PropertyDesc;
 
 public class DefaultBeanDesc implements BeanDesc {
 

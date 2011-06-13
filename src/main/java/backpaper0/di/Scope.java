@@ -1,7 +1,8 @@
 package backpaper0.di;
 
-import backpaper0.di.manager.PrototypeComponentManager;
-import backpaper0.di.manager.SingletonComponentManager;
+import backpaper0.di.manager.ComponentManager;
+import backpaper0.di.manager.impl.PrototypeComponentManager;
+import backpaper0.di.manager.impl.SingletonComponentManager;
 
 public enum Scope {
 

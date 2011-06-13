@@ -5,6 +5,10 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import backpaper0.di.inject.Injector;
+import backpaper0.di.manager.ComponentManager;
+import backpaper0.di.register.RegisterRule;
+
 public class Container {
 
     private static Logger logger = Logger.getLogger(Container.class.getName());

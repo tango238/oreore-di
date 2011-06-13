@@ -1,4 +1,6 @@
-package backpaper0.di;
+package backpaper0.di.manager;
+
+import backpaper0.di.inject.Injector;
 
 public interface ComponentManager {
 

@@ -1,4 +1,4 @@
-package backpaper0.di.bean;
+package backpaper0.di.bean.impl;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import org.junit.Test;
 
 import backpaper0.di.annotation.Inject;
+import backpaper0.di.bean.PropertyDesc;
 
 public class AccessorPropertyDescTest {
 
@@ -29,14 +30,10 @@ public class AccessorPropertyDescTest {
     @Test
     public void testIsInject() throws Exception {
         Class<?> c = Bean2.class;
-        PropertyDesc foo = new AccessorPropertyDesc(
-            "foo",
-            c.getMethod("getFoo"),
-            c.getMethod("setFoo", String.class));
-        PropertyDesc bar = new AccessorPropertyDesc(
-            "bar",
-            c.getMethod("getBar"),
-            c.getMethod("setBar", String.class));
+        PropertyDesc foo = new AccessorPropertyDesc("foo", c
+            .getMethod("getFoo"), c.getMethod("setFoo", String.class));
+        PropertyDesc bar = new AccessorPropertyDesc("bar", c
+            .getMethod("getBar"), c.getMethod("setBar", String.class));
 
         assertThat(foo.getAnnotation(Inject.class), is(notNullValue()));
         assertThat(bar.getAnnotation(Inject.class), is(nullValue()));

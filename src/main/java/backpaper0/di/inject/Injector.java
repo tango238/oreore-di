@@ -1,5 +1,6 @@
-package backpaper0.di;
+package backpaper0.di.inject;
 
+import backpaper0.di.Container;
 import backpaper0.di.annotation.Inject;
 import backpaper0.di.bean.BeanDesc;
 import backpaper0.di.bean.BeanDescFactory;

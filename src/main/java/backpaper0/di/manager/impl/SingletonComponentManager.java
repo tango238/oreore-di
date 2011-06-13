@@ -1,6 +1,6 @@
-package backpaper0.di.manager;
+package backpaper0.di.manager.impl;
 
-import backpaper0.di.Injector;
+import backpaper0.di.inject.Injector;
 
 public class SingletonComponentManager extends AbstractComponentManager {
 
