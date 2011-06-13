@@ -8,4 +8,6 @@ public interface BeanDesc {
 
     List<PropertyDesc> getPropertyDescs();
 
+    List<BeanMethod> getBeanMethods();
+
 }

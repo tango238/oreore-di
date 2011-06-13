@@ -8,6 +8,7 @@ import java.util.Map;
 
 import backpaper0.di.bean.impl.AccessorPropertyDesc;
 import backpaper0.di.bean.impl.DefaultBeanDesc;
+import backpaper0.di.bean.impl.DefaultBeanMethod;
 import backpaper0.di.util.BeanUtil;
 
 public class BeanDescFactory {
@@ -26,26 +27,32 @@ public class BeanDescFactory {
     }
 
     public static BeanDesc getBeanDesc(Class<?> clazz) {
+        List<BeanMethod> beanMethods = new ArrayList<BeanMethod>();
         Map<String, AccessorPropertyDescBuilder> builders = new LinkedHashMap<String, BeanDescFactory.AccessorPropertyDescBuilder>();
         Class<?> c = clazz;
         do {
             for (Method method : c.getDeclaredMethods()) {
                 if (BeanUtil.isGetter(method)) {
                     getBuilder(builders, method).getter = method;
-                }
-                if (BeanUtil.isSetter(method)) {
+                } else if (BeanUtil.isSetter(method)) {
                     getBuilder(builders, method).setter = method;
+                } else if (BeanUtil.isBeanMethod(method)) {
+                    BeanMethod beanMethod = new DefaultBeanMethod(method);
+                    beanMethods.add(beanMethod);
                 }
             }
             c = c.getSuperclass();
         } while (c != null && !c.equals(Object.class));
-        List<PropertyDesc> propertyDescs = new ArrayList<PropertyDesc>(builders
-            .size());
+        List<PropertyDesc> propertyDescs = new ArrayList<PropertyDesc>(
+            builders.size());
         for (AccessorPropertyDescBuilder builder : builders.values()) {
             PropertyDesc propertyDesc = builder.build();
             propertyDescs.add(propertyDesc);
         }
-        BeanDesc beanDesc = new DefaultBeanDesc(clazz, propertyDescs);
+        BeanDesc beanDesc = new DefaultBeanDesc(
+            clazz,
+            propertyDescs,
+            beanMethods);
         return beanDesc;
     }
 

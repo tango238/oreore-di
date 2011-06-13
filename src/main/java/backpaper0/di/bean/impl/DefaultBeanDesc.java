@@ -3,6 +3,7 @@ package backpaper0.di.bean.impl;
 import java.util.List;
 
 import backpaper0.di.bean.BeanDesc;
+import backpaper0.di.bean.BeanMethod;
 import backpaper0.di.bean.PropertyDesc;
 
 public class DefaultBeanDesc implements BeanDesc {
@@ -11,9 +12,13 @@ public class DefaultBeanDesc implements BeanDesc {
 
     private List<PropertyDesc> propertyDescs;
 
-    public DefaultBeanDesc(Class<?> beanClass, List<PropertyDesc> propertyDescs) {
+    private List<BeanMethod> beanMethods;
+
+    public DefaultBeanDesc(Class<?> beanClass,
+            List<PropertyDesc> propertyDescs, List<BeanMethod> beanMethods) {
         this.beanClass = beanClass;
         this.propertyDescs = propertyDescs;
+        this.beanMethods = beanMethods;
     }
 
     @Override
@@ -24,6 +29,11 @@ public class DefaultBeanDesc implements BeanDesc {
     @Override
     public List<PropertyDesc> getPropertyDescs() {
         return propertyDescs;
+    }
+
+    @Override
+    public List<BeanMethod> getBeanMethods() {
+        return beanMethods;
     }
 
 }

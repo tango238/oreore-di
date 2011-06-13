@@ -71,4 +71,18 @@ public class BeanUtil {
                 && Character.isUpperCase(name.charAt(prefix.length()));
     }
 
+    public static boolean isBeanMethod(Method method) {
+        if (isGetter(method) || isSetter(method)) {
+            return false;
+        }
+        final int modifier = method.getModifiers();
+        if (!Modifier.isPublic(modifier)) {
+            return false;
+        }
+        if (Modifier.isStatic(modifier)) {
+            return false;
+        }
+        return true;
+    }
+
 }
