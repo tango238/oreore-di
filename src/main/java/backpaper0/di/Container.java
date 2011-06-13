@@ -5,7 +5,13 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import backpaper0.di.config.Configuration;
+import backpaper0.di.inject.Injector;
+import backpaper0.di.manager.ComponentManager;
+import backpaper0.di.register.RegisterRule;
+
 /**
+
  * コンテナです。
  * 
  * <p>インスタンス生成後に{@link #init(RegisterRule) 初期化}してください。
@@ -24,10 +30,6 @@ public class Container {
 
     private volatile boolean initialized = false;
 
-    public Container() {
-        injector = new Injector(this);
-    }
-
     /**
      * コンポーネントを返します。
      * 
@@ -44,7 +46,7 @@ public class Container {
                     + componentClass);
         }
         ComponentManager manager = managers.get(componentClass);
-        T component = (T) manager.get(injector);
+        T component = (T) manager.get(injector, this);
         return component;
     }
 
@@ -74,9 +76,10 @@ public class Container {
      * 
      * @param rule コンポーネント登録のルール
      */
-    public synchronized void init(RegisterRule rule) {
+    public synchronized void init(Configuration config) {
         if (!initialized) {
-            rule.register(this);
+            injector = config.createInjector();
+            config.getRegisterRule().register(this);
             initialized = true;
         }
     }

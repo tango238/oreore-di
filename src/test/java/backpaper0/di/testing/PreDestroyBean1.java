@@ -1,6 +1,6 @@
 package backpaper0.di.testing;
 
-import backpaper0.di.annotation.PreDestroy;
+import javax.annotation.PreDestroy;
 
 public class PreDestroyBean1 {
 

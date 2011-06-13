@@ -1,19 +1,16 @@
-package backpaper0.di;
+package backpaper0.di.inject.impl;
 
+import backpaper0.di.Container;
 import backpaper0.di.annotation.Inject;
 import backpaper0.di.bean.BeanDesc;
 import backpaper0.di.bean.BeanDescFactory;
 import backpaper0.di.bean.PropertyDesc;
+import backpaper0.di.inject.Injector;
 
-public class Injector {
+public class DefaultInjector implements Injector {
 
-    private Container container;
-
-    public Injector(Container container) {
-        this.container = container;
-    }
-
-    public <T> void inject(T component) {
+    @Override
+    public <T> void inject(T component, Container container) {
         Class<T> componentClass = (Class<T>) component.getClass();
         BeanDesc beanDesc = BeanDescFactory.getBeanDesc(componentClass);
         for (PropertyDesc propertyDesc : beanDesc.getPropertyDescs()) {

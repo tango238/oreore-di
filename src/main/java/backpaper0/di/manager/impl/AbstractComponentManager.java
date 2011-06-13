@@ -1,13 +1,15 @@
-package backpaper0.di.manager;
+package backpaper0.di.manager.impl;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import backpaper0.di.ComponentManager;
-import backpaper0.di.Injector;
-import backpaper0.di.annotation.PostConstruct;
-import backpaper0.di.annotation.PreDestroy;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
+import backpaper0.di.Container;
+import backpaper0.di.inject.Injector;
+import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.util.ClassUtil;
 import backpaper0.di.util.MethodUtil;
 
@@ -36,12 +38,12 @@ public abstract class AbstractComponentManager implements ComponentManager {
         }
     }
 
-    protected Object createComponent(Injector injector) {
+    protected Object createComponent(Injector injector, Container container) {
         Object component = ClassUtil.newInstance(componentClass);
         for (Method postConstructMethod : postConstructMethods) {
             MethodUtil.invoke(postConstructMethod, component);
         }
-        injector.inject(component);
+        injector.inject(component, container);
         components.add(component);
         return component;
     }

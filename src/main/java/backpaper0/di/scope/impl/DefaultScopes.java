@@ -1,9 +1,11 @@
-package backpaper0.di;
+package backpaper0.di.scope.impl;
 
-import backpaper0.di.manager.PrototypeComponentManager;
-import backpaper0.di.manager.SingletonComponentManager;
+import backpaper0.di.manager.ComponentManager;
+import backpaper0.di.manager.impl.PrototypeComponentManager;
+import backpaper0.di.manager.impl.SingletonComponentManager;
+import backpaper0.di.scope.Scope;
 
-public enum Scope {
+public enum DefaultScopes implements Scope {
 
     SINGLETON {
 
@@ -23,6 +25,4 @@ public enum Scope {
 
         };
 
-    public abstract ComponentManager createComponentManager(
-            Class<?> componentClass);
 }

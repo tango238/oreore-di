@@ -1,8 +1,9 @@
-package backpaper0.di.bean;
+package backpaper0.di.bean.impl;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import backpaper0.di.bean.PropertyDesc;
 import backpaper0.di.util.MethodUtil;
 
 public class AccessorPropertyDesc implements PropertyDesc {

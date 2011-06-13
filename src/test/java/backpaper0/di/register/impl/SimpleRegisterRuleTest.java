@@ -1,20 +1,26 @@
-package backpaper0.di;
+package backpaper0.di.register.impl;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class RegisterRuleTest {
+import backpaper0.di.Container;
+import backpaper0.di.config.impl.DefaultConfiguration;
+import backpaper0.di.scope.impl.DefaultScopes;
+
+public class SimpleRegisterRuleTest {
 
     @Test
     public void testRegister() throws Exception {
-        RegisterRule registerRule = new RegisterRule();
-        registerRule.addRule(Bean1.class, Scope.SINGLETON);
-        registerRule.addRule(Bean2.class, Scope.PROTOTYPE);
+        SimpleRegisterRule registerRule = new SimpleRegisterRule();
+        registerRule.addRule(Bean1.class, DefaultScopes.SINGLETON);
+        registerRule.addRule(Bean2.class, DefaultScopes.PROTOTYPE);
 
         Container container = new Container();
-        container.init(new RegisterRule());
+        DefaultConfiguration config = new DefaultConfiguration();
+        config.setRegisterRule(new SimpleRegisterRule());
+        container.init(config);
         registerRule.register(container);
 
         Bean1 component1 = container.get(Bean1.class);
@@ -32,9 +38,9 @@ public class RegisterRuleTest {
 
     @Test(expected = RuntimeException.class)
     public void testBadDuplicationRule() throws Exception {
-        RegisterRule registerRule = new RegisterRule();
-        registerRule.addRule(Bean1.class, Scope.SINGLETON);
-        registerRule.addRule(Bean1.class, Scope.SINGLETON);
+        SimpleRegisterRule registerRule = new SimpleRegisterRule();
+        registerRule.addRule(Bean1.class, DefaultScopes.SINGLETON);
+        registerRule.addRule(Bean1.class, DefaultScopes.SINGLETON);
     }
 
     public static class Bean1 {
