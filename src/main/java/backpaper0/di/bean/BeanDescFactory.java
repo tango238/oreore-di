@@ -1,13 +1,12 @@
 package backpaper0.di.bean;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import backpaper0.di.util.BeanUtil;
 
 public class BeanDescFactory {
 
@@ -24,28 +23,22 @@ public class BeanDescFactory {
         }
     }
 
-    private static final Collection<String> GETTER_PREFIXS = Arrays.asList(
-        "get",
-        "is");
-
-    private static final String SETTER_PREFIX = "set";
-
     public static BeanDesc getBeanDesc(Class<?> clazz) {
         Map<String, AccessorPropertyDescBuilder> builders = new LinkedHashMap<String, BeanDescFactory.AccessorPropertyDescBuilder>();
         Class<?> c = clazz;
         do {
             for (Method method : c.getDeclaredMethods()) {
-                if (isGetter(method)) {
+                if (BeanUtil.isGetter(method)) {
                     getBuilder(builders, method).getter = method;
                 }
-                if (isSetter(method)) {
+                if (BeanUtil.isSetter(method)) {
                     getBuilder(builders, method).setter = method;
                 }
             }
             c = c.getSuperclass();
         } while (c != null && !c.equals(Object.class));
-        List<PropertyDesc> propertyDescs = new ArrayList<PropertyDesc>(
-            builders.size());
+        List<PropertyDesc> propertyDescs = new ArrayList<PropertyDesc>(builders
+            .size());
         for (AccessorPropertyDescBuilder builder : builders.values()) {
             PropertyDesc propertyDesc = builder.build();
             propertyDescs.add(propertyDesc);
@@ -76,61 +69,4 @@ public class BeanDescFactory {
         return base.substring(0, 1).toLowerCase() + base.substring(1);
     }
 
-    protected static boolean isGetter(Method method) {
-        final int modifier = method.getModifiers();
-        if (!Modifier.isPublic(modifier)) {
-            return false;
-        }
-        if (Modifier.isStatic(modifier)) {
-            return false;
-        }
-        if (!isGetterName(method.getName())) {
-            return false;
-        }
-        if (method.getParameterTypes().length != 0) {
-            return false;
-        }
-        if (method.getReturnType().equals(Void.TYPE)) {
-            return false;
-        }
-        return true;
-    }
-
-    protected static boolean isGetterName(String name) {
-        for (String prefix : GETTER_PREFIXS) {
-            if (isAccessorName(name, prefix)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected static boolean isSetter(Method method) {
-        final int modifier = method.getModifiers();
-        if (!Modifier.isPublic(modifier)) {
-            return false;
-        }
-        if (Modifier.isStatic(modifier)) {
-            return false;
-        }
-        if (!isSetterName(method.getName())) {
-            return false;
-        }
-        if (method.getParameterTypes().length != 1) {
-            return false;
-        }
-        if (!method.getReturnType().equals(Void.TYPE)) {
-            return false;
-        }
-        return true;
-    }
-
-    protected static boolean isSetterName(String name) {
-        return isAccessorName(name, SETTER_PREFIX);
-    }
-
-    private static boolean isAccessorName(String name, String prefix) {
-        return name.startsWith(prefix)
-                && Character.isUpperCase(name.charAt(prefix.length()));
-    }
 }
