@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import backpaper0.di.config.Configuration;
 import backpaper0.di.manager.ComponentManager;
-import backpaper0.di.register.RegisterRule;
+import backpaper0.di.register.impl.SimpleRegisterRule;
 import backpaper0.di.testing.Foo;
 import backpaper0.di.testing.InjectBean2;
 import backpaper0.di.testing.InjectBean3;
@@ -31,7 +31,7 @@ public class ContainerTest {
     @Test
     public void testGet() throws Exception {
         Configuration config = new Configuration();
-        config.setRegisterRule(new RegisterRule());
+        config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(Foo.class, createManager(Foo.class));
         Foo component = container.get(Foo.class);
@@ -41,7 +41,7 @@ public class ContainerTest {
     @Test
     public void testGet_singleton() throws Exception {
         Configuration config = new Configuration();
-        config.setRegisterRule(new RegisterRule());
+        config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(Foo.class, createManager(Foo.class));
         Foo component1 = container.get(Foo.class);
@@ -52,7 +52,7 @@ public class ContainerTest {
     @Test
     public void testRegister() throws Exception {
         Configuration config = new Configuration();
-        config.setRegisterRule(new RegisterRule());
+        config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         try {
             // 登録されていない場合は例外
@@ -69,7 +69,7 @@ public class ContainerTest {
     @Test
     public void testHasComponent() throws Exception {
         Configuration config = new Configuration();
-        config.setRegisterRule(new RegisterRule());
+        config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         assertThat(container.hasComponent(Foo.class), is(false));
         container.register(Foo.class, createManager(Foo.class));
@@ -85,7 +85,7 @@ public class ContainerTest {
             assertThat(expected.getMessage(), is("コンテナが初期化されていません。"));
         }
         Configuration config = new Configuration();
-        config.setRegisterRule(new RegisterRule());
+        config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.hasComponent(Foo.class);
     }
@@ -93,7 +93,7 @@ public class ContainerTest {
     @Test
     public void testInject() throws Exception {
         Configuration config = new Configuration();
-        config.setRegisterRule(new RegisterRule());
+        config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         container.register(InjectBean2.class, createManager(InjectBean2.class));
         container.register(InjectBean3.class, createManager(InjectBean3.class));
@@ -115,7 +115,7 @@ public class ContainerTest {
             assertThat(expected.getMessage(), is("コンテナが初期化されていません。"));
         }
 
-        RegisterRule rule = new RegisterRule();
+        SimpleRegisterRule rule = new SimpleRegisterRule();
         rule.addRule(Foo.class, Scope.SINGLETON);
         Configuration config = new Configuration();
         config.setRegisterRule(rule);
@@ -129,7 +129,7 @@ public class ContainerTest {
 
     @Test
     public void testPostConstruct() throws Exception {
-        RegisterRule rule = new RegisterRule();
+        SimpleRegisterRule rule = new SimpleRegisterRule();
         rule.addRule(PostConstructBean1.class, Scope.SINGLETON);
         rule.addRule(PostConstructBean2.class, Scope.PROTOTYPE);
         Configuration config = new Configuration();
@@ -144,7 +144,7 @@ public class ContainerTest {
 
     @Test
     public void testPreDestroy() throws Exception {
-        RegisterRule rule = new RegisterRule();
+        SimpleRegisterRule rule = new SimpleRegisterRule();
         rule.addRule(PreDestroyBean1.class, Scope.SINGLETON);
         rule.addRule(PreDestroyBean2.class, Scope.PROTOTYPE);
         Configuration config = new Configuration();
@@ -171,7 +171,7 @@ public class ContainerTest {
         final int size = 10;
         final CountDownLatch start = new CountDownLatch(1);
         final AtomicInteger counter = new AtomicInteger();
-        final RegisterRule rule = new RegisterRule() {
+        final SimpleRegisterRule rule = new SimpleRegisterRule() {
 
             @Override
             public void register(Container container) {
@@ -207,7 +207,7 @@ public class ContainerTest {
     @Test
     public void testMultiThread_notInit_get() throws Exception {
         final CountDownLatch stopper = new CountDownLatch(1);
-        final RegisterRule rule = new RegisterRule() {
+        final SimpleRegisterRule rule = new SimpleRegisterRule() {
 
             @Override
             public void register(Container container) {

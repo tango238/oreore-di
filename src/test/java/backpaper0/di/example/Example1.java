@@ -9,14 +9,14 @@ import backpaper0.di.Container;
 import backpaper0.di.Scope;
 import backpaper0.di.annotation.Inject;
 import backpaper0.di.config.Configuration;
-import backpaper0.di.register.RegisterRule;
+import backpaper0.di.register.impl.SimpleRegisterRule;
 
 public class Example1 {
 
     @Test
     public void example() {
         Container container = new Container();
-        RegisterRule rule = new RegisterRule();
+        SimpleRegisterRule rule = new SimpleRegisterRule();
         rule.addRule(Bean2.class, Scope.SINGLETON);
         rule.addRule(Bean1.class, Scope.SINGLETON);
         Configuration config = new Configuration();

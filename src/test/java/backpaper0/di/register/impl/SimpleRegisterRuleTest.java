@@ -1,4 +1,4 @@
-package backpaper0.di.register;
+package backpaper0.di.register.impl;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
@@ -9,17 +9,17 @@ import backpaper0.di.Container;
 import backpaper0.di.Scope;
 import backpaper0.di.config.Configuration;
 
-public class RegisterRuleTest {
+public class SimpleRegisterRuleTest {
 
     @Test
     public void testRegister() throws Exception {
-        RegisterRule registerRule = new RegisterRule();
+        SimpleRegisterRule registerRule = new SimpleRegisterRule();
         registerRule.addRule(Bean1.class, Scope.SINGLETON);
         registerRule.addRule(Bean2.class, Scope.PROTOTYPE);
 
         Container container = new Container();
         Configuration config = new Configuration();
-        config.setRegisterRule(new RegisterRule());
+        config.setRegisterRule(new SimpleRegisterRule());
         container.init(config);
         registerRule.register(container);
 
@@ -38,7 +38,7 @@ public class RegisterRuleTest {
 
     @Test(expected = RuntimeException.class)
     public void testBadDuplicationRule() throws Exception {
-        RegisterRule registerRule = new RegisterRule();
+        SimpleRegisterRule registerRule = new SimpleRegisterRule();
         registerRule.addRule(Bean1.class, Scope.SINGLETON);
         registerRule.addRule(Bean1.class, Scope.SINGLETON);
     }
