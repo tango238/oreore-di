@@ -38,9 +38,9 @@ public class BeanDescFactoryTest {
     @Test
     public void testBeanMethods() throws Exception {
         BeanDesc beanDesc = BeanDescFactory.getBeanDesc(Bean3.class);
-        List<BeanMethod> beanMethods = beanDesc.getBeanMethods();
-        assertThat(beanMethods.size(), is(1));
-        BeanMethod bar = beanMethods.get(0);
+        List<MethodDesc> methodDescs = beanDesc.getMethodDescs();
+        assertThat(methodDescs.size(), is(1));
+        MethodDesc bar = methodDescs.get(0);
         assertThat(bar.getName(), is("bar"));
         assertThat(bar.getAnnotation(Anno1.class), is(notNullValue()));
         Bean3 bean3 = new Bean3();

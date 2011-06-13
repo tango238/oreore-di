@@ -8,7 +8,7 @@ import java.util.Map;
 
 import backpaper0.di.bean.impl.AccessorPropertyDesc;
 import backpaper0.di.bean.impl.DefaultBeanDesc;
-import backpaper0.di.bean.impl.DefaultBeanMethod;
+import backpaper0.di.bean.impl.DefaultMethodDesc;
 import backpaper0.di.util.BeanUtil;
 
 public class BeanDescFactory {
@@ -27,7 +27,7 @@ public class BeanDescFactory {
     }
 
     public static BeanDesc getBeanDesc(Class<?> clazz) {
-        List<BeanMethod> beanMethods = new ArrayList<BeanMethod>();
+        List<MethodDesc> beanMethods = new ArrayList<MethodDesc>();
         Map<String, AccessorPropertyDescBuilder> builders = new LinkedHashMap<String, BeanDescFactory.AccessorPropertyDescBuilder>();
         Class<?> c = clazz;
         do {
@@ -37,7 +37,7 @@ public class BeanDescFactory {
                 } else if (BeanUtil.isSetter(method)) {
                     getBuilder(builders, method).setter = method;
                 } else if (BeanUtil.isBeanMethod(method)) {
-                    BeanMethod beanMethod = new DefaultBeanMethod(method);
+                    MethodDesc beanMethod = new DefaultMethodDesc(method);
                     beanMethods.add(beanMethod);
                 }
             }

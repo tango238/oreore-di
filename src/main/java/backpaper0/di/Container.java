@@ -15,7 +15,7 @@ import backpaper0.di.register.RegisterRule;
  * コンテナです。
  * 
  * <p>インスタンス生成後に{@link #init(RegisterRule) 初期化}してください。
- * 初期化せずに{@link #get(Class) コンポーネントを取得}しようとすると例外が発生します。
+ * 初期化せずに{@link #get(Class) コンポーネントを取得}しようとすると{@link IllegalStateException}が発生します。
  * 
  * @author backpaper0
  *
@@ -39,7 +39,7 @@ public class Container {
      */
     public <T> T get(Class<T> componentClass) {
         if (!initialized) {
-            throw new RuntimeException("コンテナが初期化されていません。");
+            throw new IllegalStateException("コンテナが初期化されていません。");
         }
         if (!managers.containsKey(componentClass)) {
             throw new RuntimeException("コンポーネントがコンテナに登録されていません。"
@@ -66,7 +66,7 @@ public class Container {
      */
     public <T> boolean has(Class<T> componentClass) {
         if (!initialized) {
-            throw new RuntimeException("コンテナが初期化されていません。");
+            throw new IllegalStateException("コンテナが初期化されていません。");
         }
         return managers.containsKey(componentClass);
     }
@@ -74,7 +74,7 @@ public class Container {
     /**
      * コンテナを初期化します。
      * 
-     * @param rule コンポーネント登録のルール
+     * @param config コンテナの設定
      */
     public synchronized void init(Configuration config) {
         if (!initialized) {

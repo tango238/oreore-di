@@ -5,14 +5,14 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-import backpaper0.di.bean.BeanMethod;
+import backpaper0.di.bean.MethodDesc;
 import backpaper0.di.util.MethodUtil;
 
-public class DefaultBeanMethod implements BeanMethod {
+public class DefaultMethodDesc implements MethodDesc {
 
     private Method method;
 
-    public DefaultBeanMethod(Method method) {
+    public DefaultMethodDesc(Method method) {
         this.method = method;
     }
 

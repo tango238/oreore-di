@@ -66,8 +66,7 @@ public class AccessorPropertyDesc implements PropertyDesc {
 
     @Override
     public boolean isWriteOnly() {
-        // TODO Auto-generated method stub
-        return false;
+        return writeOnly;
     }
 
 }

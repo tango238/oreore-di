@@ -30,13 +30,29 @@ public class AccessorPropertyDescTest {
     @Test
     public void testIsInject() throws Exception {
         Class<?> c = Bean2.class;
-        PropertyDesc foo = new AccessorPropertyDesc("foo", c
-            .getMethod("getFoo"), c.getMethod("setFoo", String.class));
-        PropertyDesc bar = new AccessorPropertyDesc("bar", c
-            .getMethod("getBar"), c.getMethod("setBar", String.class));
+        PropertyDesc foo = new AccessorPropertyDesc(
+            "foo",
+            c.getMethod("getFoo"),
+            c.getMethod("setFoo", String.class));
+        PropertyDesc bar = new AccessorPropertyDesc(
+            "bar",
+            c.getMethod("getBar"),
+            c.getMethod("setBar", String.class));
 
         assertThat(foo.getAnnotation(Inject.class), is(notNullValue()));
         assertThat(bar.getAnnotation(Inject.class), is(nullValue()));
+    }
+
+    @Test
+    public void testReadOnly() throws Exception {
+        //TODO
+        fail();
+    }
+
+    @Test
+    public void testWriteOnly() throws Exception {
+        //TODO
+        fail();
     }
 
     public static class Bean {
