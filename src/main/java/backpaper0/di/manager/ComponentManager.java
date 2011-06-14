@@ -20,4 +20,5 @@ public interface ComponentManager {
      */
     Object get(Injector injector, Container container);
 
+    void destroy();
 }

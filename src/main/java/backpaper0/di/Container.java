@@ -7,10 +7,6 @@ import java.util.logging.Logger;
 
 import backpaper0.di.config.Configuration;
 import backpaper0.di.inject.Injector;
-import backpaper0.di.lifecycle.BuiltInLifecycles;
-import backpaper0.di.lifecycle.Lifecycle;
-import backpaper0.di.lifecycle.LifecycleListener;
-import backpaper0.di.lifecycle.LifecycleManager;
 import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.register.RegisterRule;
 
@@ -30,8 +26,6 @@ public class Container {
     private ConcurrentMap<Class<?>, ComponentManager> managers = new ConcurrentHashMap<Class<?>, ComponentManager>();
 
     private Injector injector;
-
-    private LifecycleManager lifecycleManager = new LifecycleManager();
 
     private volatile boolean initialized = false;
 
@@ -86,9 +80,6 @@ public class Container {
             injector = config.createInjector();
             config.getRegisterRule().register(this);
             initialized = true;
-            lifecycleManager.fireLifecycleEvent(
-                BuiltInLifecycles.CONTAINER_POST_CONSTRUCT,
-                this);
         }
     }
 
@@ -97,14 +88,10 @@ public class Container {
      * 
      */
     public void destroy() {
-        lifecycleManager.fireLifecycleEvent(
-            BuiltInLifecycles.CONTAINER_PRE_DESTROY,
-            this);
+        for (ComponentManager manager : managers.values()) {
+            manager.destroy();
+        }
         managers.clear();
     }
 
-    public void addLifecycleListener(Lifecycle lifecycle,
-            LifecycleListener listener) {
-        lifecycleManager.addLifecycleListener(lifecycle, listener);
-    }
 }

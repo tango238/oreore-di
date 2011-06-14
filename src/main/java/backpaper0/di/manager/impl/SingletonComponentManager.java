@@ -2,7 +2,6 @@ package backpaper0.di.manager.impl;
 
 import backpaper0.di.Container;
 import backpaper0.di.inject.Injector;
-import backpaper0.di.lifecycle.BuiltInLifecycles;
 
 public class SingletonComponentManager extends AbstractComponentManager {
 
@@ -13,12 +12,7 @@ public class SingletonComponentManager extends AbstractComponentManager {
     @Override
     public Object get(Injector injector, Container container) {
         if (components.isEmpty()) {
-            final Object singleton = createComponent(injector, container);
-            container.addLifecycleListener(
-                BuiltInLifecycles.CONTAINER_PRE_DESTROY,
-                new ComponentDestroyLifecycleListener(
-                    singleton,
-                    preDestroyMethods));
+            createComponent(injector, container);
         }
         return components.iterator().next();
     }
