@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import backpaper0.di.Container;
+import backpaper0.di.bean.BeanDescFactory;
 import backpaper0.di.config.impl.DefaultConfiguration;
 import backpaper0.di.inject.Injector;
 import backpaper0.di.manager.impl.SingletonComponentManager;
@@ -29,10 +30,14 @@ public class InjectorTest {
         Injector injector = new DefaultInjector();
 
         InjectBean1 injectBean1 = new InjectBean1();
-        injector.inject(injectBean1, container);
+        injector.inject(
+            injectBean1,
+            BeanDescFactory.getBeanDesc(InjectBean1.class).getPropertyDescs(),
+            container);
 
-        assertThat(injectBean1.getInjectBean2(), is(sameInstance(container
-            .get(InjectBean2.class))));
+        assertThat(
+            injectBean1.getInjectBean2(),
+            is(sameInstance(container.get(InjectBean2.class))));
     }
 
     @Test
@@ -49,10 +54,14 @@ public class InjectorTest {
         Injector injector = new DefaultInjector();
 
         InjectBean3 injectBean3 = new InjectBean3();
-        injector.inject(injectBean3, container);
+        injector.inject(
+            injectBean3,
+            BeanDescFactory.getBeanDesc(InjectBean3.class).getPropertyDescs(),
+            container);
 
-        assertThat(injectBean3.getInjectBean4(), is(sameInstance(container
-            .get(InjectBean4.class))));
+        assertThat(
+            injectBean3.getInjectBean4(),
+            is(sameInstance(container.get(InjectBean4.class))));
         assertThat(
             injectBean3.getInjectBean4().getInjectBean2(),
             is(sameInstance(container.get(InjectBean2.class))));

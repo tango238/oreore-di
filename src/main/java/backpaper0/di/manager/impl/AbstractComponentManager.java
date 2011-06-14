@@ -7,9 +7,11 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import backpaper0.di.Container;
+import backpaper0.di.annotation.Inject;
 import backpaper0.di.bean.BeanDesc;
 import backpaper0.di.bean.BeanDescFactory;
 import backpaper0.di.bean.MethodDesc;
+import backpaper0.di.bean.PropertyDesc;
 import backpaper0.di.inject.Injector;
 import backpaper0.di.manager.ComponentManager;
 import backpaper0.di.util.ClassUtil;
@@ -23,6 +25,8 @@ public abstract class AbstractComponentManager implements ComponentManager {
     protected Collection<MethodDesc> preDestroyMethods = new ArrayList<MethodDesc>();
 
     protected Collection<Object> components = new ArrayList<Object>();
+
+    private Collection<PropertyDesc> injectTargeProperties = new ArrayList<PropertyDesc>();
 
     public AbstractComponentManager(Class<?> componentClass) {
         this.componentClass = componentClass;
@@ -38,6 +42,12 @@ public abstract class AbstractComponentManager implements ComponentManager {
                 preDestroyMethods.add(beanMethod);
             }
         }
+        for (PropertyDesc propertyDesc : beanDesc.getPropertyDescs()) {
+            if (!propertyDesc.isReadOnly()
+                    && propertyDesc.getAnnotation(Inject.class) != null) {
+                injectTargeProperties.add(propertyDesc);
+            }
+        }
     }
 
     protected Object createComponent(Injector injector, Container container) {
@@ -45,7 +55,7 @@ public abstract class AbstractComponentManager implements ComponentManager {
         for (MethodDesc postConstructMethod : postConstructMethods) {
             postConstructMethod.invoke(component);
         }
-        injector.inject(component, container);
+        injector.inject(component, injectTargeProperties, container);
         components.add(component);
         return component;
     }

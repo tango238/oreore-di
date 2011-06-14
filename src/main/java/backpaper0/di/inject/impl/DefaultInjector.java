@@ -1,25 +1,20 @@
 package backpaper0.di.inject.impl;
 
+import java.util.Collection;
+
 import backpaper0.di.Container;
-import backpaper0.di.annotation.Inject;
-import backpaper0.di.bean.BeanDesc;
-import backpaper0.di.bean.BeanDescFactory;
 import backpaper0.di.bean.PropertyDesc;
 import backpaper0.di.inject.Injector;
 
 public class DefaultInjector implements Injector {
 
     @Override
-    public <T> void inject(T targetComponent, Container container) {
-        Class<T> componentClass = (Class<T>) targetComponent.getClass();
-        BeanDesc beanDesc = BeanDescFactory.getBeanDesc(componentClass);
-        for (PropertyDesc propertyDesc : beanDesc.getPropertyDescs()) {
-            if (!propertyDesc.isReadOnly()
-                    && propertyDesc.getAnnotation(Inject.class) != null) {
-                Class<?> propertyClass = propertyDesc.getPropertyClass();
-                Object dependency = container.get(propertyClass);
-                propertyDesc.set(targetComponent, dependency);
-            }
+    public <T> void inject(T targetComponent,
+            Collection<PropertyDesc> targetPropertyDescs, Container container) {
+        for (PropertyDesc propertyDesc : targetPropertyDescs) {
+            Class<?> propertyClass = propertyDesc.getPropertyClass();
+            Object dependency = container.get(propertyClass);
+            propertyDesc.set(targetComponent, dependency);
         }
     }
 
