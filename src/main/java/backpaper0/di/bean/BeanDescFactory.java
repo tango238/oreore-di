@@ -1,9 +1,12 @@
 package backpaper0.di.bean;
 
-import backpaper0.di.bean.impl.DefaultBeanDescProvider;
 import backpaper0.di.util.ClassUtil;
 
 public class BeanDescFactory {
+
+    private static final String PROVIDER_KEY = "BeanDescProvider";
+
+    private static final String DEFAULT_PROVIDER_CLASS_NAME = "backpaper0.di.bean.impl.DefaultBeanDescProvider";
 
     private static BeanDescProvider provider = createBeanDescProvider();
 
@@ -12,10 +15,10 @@ public class BeanDescFactory {
         return beanDesc;
     }
 
-    private static BeanDescProvider createBeanDescProvider() {
+    static BeanDescProvider createBeanDescProvider() {
         final String beanDescProviderClassName = System.getProperty(
-            BeanDescProvider.class.getSimpleName(),
-            DefaultBeanDescProvider.class.getName());
+            PROVIDER_KEY,
+            DEFAULT_PROVIDER_CLASS_NAME);
         Class<BeanDescProvider> beanDescProviderClass = ClassUtil
             .forName(beanDescProviderClassName);
         return ClassUtil.newInstance(beanDescProviderClass);
