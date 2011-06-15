@@ -54,10 +54,13 @@ public class DefaultBeanDescProvider implements BeanDescProvider {
             propertyDescs.add(propertyDesc);
         }
         for (Field field : fields) {
-            PropertyDesc propertyDesc = new PublicFieldPropertyDesc(
-                field.getName(),
-                field);
-            propertyDescs.add(propertyDesc);
+            final String name = field.getName();
+            if (!builders.containsKey(name)) {
+                PropertyDesc propertyDesc = new PublicFieldPropertyDesc(
+                    name,
+                    field);
+                propertyDescs.add(propertyDesc);
+            }
         }
         BeanDesc beanDesc = new DefaultBeanDesc(
             beanClass,
