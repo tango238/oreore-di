@@ -1,5 +1,6 @@
 package backpaper0.di.bean;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import backpaper0.di.bean.impl.AccessorPropertyDesc;
 import backpaper0.di.bean.impl.DefaultBeanDesc;
 import backpaper0.di.bean.impl.DefaultMethodDesc;
+import backpaper0.di.bean.impl.PublicFieldPropertyDesc;
 import backpaper0.di.util.BeanUtil;
 
 public class BeanDescFactory {
@@ -43,10 +45,17 @@ public class BeanDescFactory {
             }
             c = c.getSuperclass();
         } while (c != null && !c.equals(Object.class));
+        Field[] fields = clazz.getFields();
         List<PropertyDesc> propertyDescs = new ArrayList<PropertyDesc>(
-            builders.size());
+            builders.size() + fields.length);
         for (AccessorPropertyDescBuilder builder : builders.values()) {
             PropertyDesc propertyDesc = builder.build();
+            propertyDescs.add(propertyDesc);
+        }
+        for (Field field : fields) {
+            PropertyDesc propertyDesc = new PublicFieldPropertyDesc(
+                field.getName(),
+                field);
             propertyDescs.add(propertyDesc);
         }
         BeanDesc beanDesc = new DefaultBeanDesc(

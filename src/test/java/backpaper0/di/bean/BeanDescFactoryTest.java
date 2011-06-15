@@ -49,6 +49,26 @@ public class BeanDescFactoryTest {
         assertThat(bean3.called, is(true));
     }
 
+    @Test
+    public void testWithPublicFieldPropertyDesc() throws Exception {
+        BeanDesc beanDesc = BeanDescFactory.getBeanDesc(Bean4.class);
+        List<PropertyDesc> propertyDescs = beanDesc.getPropertyDescs();
+        assertThat(propertyDescs.size(), is(2));
+        assertThat(propertyDescs.get(0).getName(), is("bar"));
+        assertThat(propertyDescs.get(1).getName(), is("foo"));
+    }
+
+    @Test
+    public void testWithPublicFieldPropertyDesc_inherit() throws Exception {
+        BeanDesc beanDesc = BeanDescFactory.getBeanDesc(Bean5.class);
+        List<PropertyDesc> propertyDescs = beanDesc.getPropertyDescs();
+        assertThat(propertyDescs.size(), is(4));
+        assertThat(propertyDescs.get(0).getName(), is("baz"));
+        assertThat(propertyDescs.get(1).getName(), is("bar"));
+        assertThat(propertyDescs.get(2).getName(), is("qux"));
+        assertThat(propertyDescs.get(3).getName(), is("foo"));
+    }
+
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
     public static @interface Anno1 {
@@ -111,5 +131,22 @@ public class BeanDescFactoryTest {
 
     public static class Bean2 extends Bean {
 
+    }
+
+    public static class Bean4 {
+
+        public String foo;
+
+        public String getBar() {
+            return "a";
+        }
+    }
+
+    public static class Bean5 extends Bean4 {
+
+        public void setBaz(int baz) {
+        }
+
+        public boolean qux;
     }
 }
